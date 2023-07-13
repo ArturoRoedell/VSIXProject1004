@@ -102,8 +102,6 @@
     <Compile Include="a99_LibrariesTypesMiscFunctions\BaseFuncs\PopulateArrays.cs" />
     <Compile Include="a99_LibrariesTypesMiscFunctions\BaseFuncs\PrintClass.cs" />
     <Compile Include="a99_LibrariesTypesMiscFunctions\BaseFuncs\ReturnFullPath.cs" />
-    <Compile Include="a99_LibrariesTypesMiscFunctions\DebugTools\BridgeToDebuger.txt" />
-    <Compile Include="a99_LibrariesTypesMiscFunctions\dlls\GScraper.dll" />
     <Compile Include="a99_LibrariesTypesMiscFunctions\BaseFuncs\FileReadWrite\DownloadFile.cs" />
     <Compile Include="a99_LibrariesTypesMiscFunctions\BaseFuncs\FileReadWrite\ReadFileContents.cs" />
     <Compile Include="a99_LibrariesTypesMiscFunctions\BaseFuncs\FileReadWrite\SerializeSaveFileClass.cs" />
@@ -115,6 +113,9 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="a99_LibrariesTypesMiscFunctions\DebugTools\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\PCRE.NET.0.20.0\build\PCRE.NET.targets" Condition="Exists('..\packages\PCRE.NET.0.20.0\build\PCRE.NET.targets')" />
