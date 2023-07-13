@@ -1,0 +1,4 @@
+﻿namespace BackEndSharedLibrary.Types
+{
+	
+}
