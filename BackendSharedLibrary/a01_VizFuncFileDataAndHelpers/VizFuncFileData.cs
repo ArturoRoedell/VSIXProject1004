@@ -5,12 +5,13 @@ using BackEndSharedLibrary.VizFuncFileDataAndHelpers.HelperMethods;
 using static BackEndSharedLibrary.VizFuncFileDataAndHelpers.HelperMethods.RegexMethods;
 using BackEndSharedLibrary.OtherMiscFuncs.BaseFuncs;
 using BackEndSharedLibrary.Types;
-using System.Drawing;
-using System.Drawing.Imaging;
+//using System.Drawing;
+//using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
+using Microsoft.VisualStudio.Imaging;
 using static BackEndSharedLibrary.OtherMiscFuncs.BaseFuncs.PrintClass;
 
 namespace BackEndSharedLibrary.VizFuncFileDataAndHelpers
