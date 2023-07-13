@@ -118,15 +118,15 @@ namespace BackEndSharedLibrary.VizFuncFileDataAndHelpers
 			printl(fullFilepath);
 			if (!File.Exists(fullFilepath)) // (!File.Exists(fullFilepath)) // Default
 			{
-				MediaTypeNames.Image image;
+				//MediaTypeNames.Image image;
 				printl(imageUrl);
 				try
 				{
 					if (imageUrl.EndsWith(".jpeg"))
 					{
-						image = await LoadUrlImageToStreamClass.LoadUrlImageToStream(imageUrl);
+						/*image = await LoadUrlImageToStreamClass.LoadUrlImageToStream(imageUrl);
 						image.Save(fullFilepath, ImageFormat.Png);
-						image.Dispose();
+						image.Dispose();*/
 					}
 					else
 					{
@@ -175,7 +175,8 @@ namespace BackEndSharedLibrary.VizFuncFileDataAndHelpers
 		}
 
 		#region Public_Attributes
-		public static string imageFileDirPath { get; set; } = @"..\..\..\..\..\Viz_func_Images\";
+		//Proj Notes: important to fix relative path when Migrating library
+		public static string imageFileDirPath { get; set; } = @"..\..\..\..\Viz_func_Images\";
 		public string ActiveCode { get; set; }
 		public List<string> MethodsList { get; set; }
 		public List<string> ClassesList { get; set; }

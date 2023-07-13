@@ -1,0 +1,280 @@
+
+
+### Notes To My Custom Language parser: ###
+
+
+// Create Object called Areas to skip
+
+// what we ahtnt to do:
+//   How we want to do it:
+     //Staring Code for feature/statement/class:
+
+//
+//
+
+return a string 
+or 
+List
+Or Dictionary
+of classes and methods
+
+
+example:
+class MyClass{void mymethod(){}}
+class MyClass{int mymethod(){}}
+
+
+THe following words have a paranthesis but are not a method.
+Remove these words or skip adding these. do not add to the  list:
+if
+else
+for
+foreach
+while
+do
+switch
+
+//look for these with parenthesis with optinal space 
+
+//regex
+if\s*\(
+
+
+
+
+
+stop adding after these symbols: 
+(  Then adding possible after This Symbol 
+
+read after these symbols:
+{
+}
+;
+
+
+
+
+skip all recording after this symbol:
+
+] {   Until This Symbol apears: }
+]{    Until This Symbol apears: }
+={	Until This Symbol apears: }
+= {	Until This Symbol apears: }
+
+// until newline
+
+/* until */
+
+skip all recording after this symbol:
+@" then ignore \"  until this symbol appears "
+
+" Then ignore "" until this symbol apears"
+
+' until this symbol appears'
+
+
+//
+bool newLine  = MyStr.Contains(Environment.NewLine)
+
+class
+sruct
+interface
+abstract
+
+
+//Form Areas of Code to ignore
+
+
+""" until this symbol appears """
+
+
+Create List of MyCleanStr
+Then create for loop to go trhough document and remove characters 
+
+struct MyCleanStr
+{
+	public string skipMe;
+	public string ignoreMe;
+	public string continueMe;
+}
+
+
+
+
+
+
+
+public static string MyMethod(string InputStr, MyCleanStr myCleanstr)
+{
+	string NewStringBuild = null;
+	string TransferStr = null;
+	string MyTempStr = null;
+
+	bool skipThis = false;
+
+	System.Text.StringBuilder StrBuilder = new System.Text.StringBuilder("");
+
+	for(i=0; i< mystring.length; i++)
+	{
+		..
+		..
+		..
+		int j = 0
+		while(j < myCleanstr.skipMe.Length)
+		{
+			..
+			..
+			..
+			//MyTempStr = null;
+			..
+			StringBuilder Inputbuilder = new System.Text.StringBuilder("");
+			StringBuilder CompareBuilder = new System.Text.StringBuilder("");
+
+			..
+			..
+			if(myCleanstr.skipMe[j] == InputStr[i])
+			{
+				skipThis = true;
+			}
+			else
+			{skipThis = false;}
+			..
+			i++; 
+			j++;
+		}
+		i = i -j; // This reverbs the characters to the original letters
+		..
+		..
+		..
+		..
+		..
+		string NewStringBuild = null;
+	}
+
+	return NewStringBuild;
+}
+
+
+
+
+//------------------------------------------------------
+// ARchive Code to look for methods work in  progress
+struct MyCleanStr
+{
+	public string skipMe;
+	public string ignoreMe;
+	public string continueMe;
+}
+
+class PracticeTwo
+{
+
+	public void start()
+	{
+		MyCleanStr CurlyBraces = new MyCleanStr
+		{
+			skipMe = "{",
+			ignoreMe = "",
+			continueMe = "}"
+		};
+
+		FileUtilitiesXT xt = new FileUtilitiesXT();
+		string InputString = xt.ReadFromFile(@"C:\Users\ARTURO 001\source\repos\001ScratchCode\001ReadCodeFile\TestCodeFile.cs");
+		
+		MyCleanStrMethod(InputString, CurlyBraces);
+	}
+	
+	//MyCleanStrMethod: This Method receives a string of code and removes appropriate code
+	// example: skip all recording after this symbol:
+	// @" then ignore \"  until this symbol appears "
+	public static string MyCleanStrMethod(string InputStr, MyCleanStr myCleanstr)
+	{
+		string NewStringBuild = null;
+		bool skipThis = false;
+		System.Text.StringBuilder StrBuilder = new System.Text.StringBuilder("");
+		int startRemove = 0;
+		int finishRemove = 0;
+		for (int i = 0; i < InputStr.Length; i++)
+		{
+			int j = 0;
+			while (j < myCleanstr.skipMe.Length) // Determines when to start erasing or skipping 
+			{
+				if (myCleanstr.skipMe[j] == InputStr[i])
+				{
+					skipThis = true;
+				}
+				else
+				{
+					skipThis = false;
+				}
+
+				i++;
+				j++;
+			}
+
+			if (skipThis == true) //Determines area to remove from string
+			{
+				startRemove = i;
+			}
+
+			i = i - j; // This reverbs the characters to the original letters
+
+			bool ignoreMe = false;
+
+			if (skipThis == true)
+			{
+				j = 0;
+				while (myCleanstr.ignoreMe[j] ==
+				       InputStr[i]) // Determines when to ignore the escape continue characters
+				{
+					if (myCleanstr.ignoreMe[j] == InputStr[i])
+					{
+						ignoreMe = true;
+					}
+					else
+					{
+						ignoreMe = false;
+					}
+
+					i++;
+					j++;
+				}
+			}
+
+			i = i - j; // This reverbs the characters to the original letters
+
+			if (ignoreMe != true && skipThis == true)
+			{
+				bool continueMe = false;
+				j = 0;
+				while (myCleanstr.continueMe[j] == InputStr[i])
+				{
+					if (myCleanstr.continueMe[j] == InputStr[i])
+					{
+						continueMe = true;
+					}
+					else
+					{
+						continueMe = false;
+					}
+					i++;
+					j++;
+				}
+				if (continueMe == true)
+				{
+					finishRemove = i;
+					NewStringBuild = InputStr.Remove(startRemove, finishRemove);
+				}
+			}
+		}
+		return NewStringBuild;
+	}//End Of Method
+}
+
+//-------------------------------------
+
+
+
+
+
+

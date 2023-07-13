@@ -1,0 +1,87 @@
+﻿TODOS AND NOTES FILE
+
+##IMPORTANT NOTES:
+// Finds Patterns that look like functions at start of string including arrows
+^\t*[a-zA-Z_.\s0-9<>]+\((?:[^)(]+|(?R))*+\)\s*\{
+// Regex Add to include optional comments
+^\t*\s*[a-zA-Z_.\s0-9<>]+\((?:[^)(]+|(?R))*+\)\s*((\/\/)(.*?)\n)*\s*\{
+((\/\/)(.*?)\n)*\s*
+
+## MORE PROJECT NOTES:
+	NOTES - Will Design For four to three max image, depending on setting
+	
+## ONGOING:
+    MAINTASK: Start implementing TDD: start writing automated testing to make debuging quicker
+
+## MAINTASKS MAJOR:
+        TODO: FOURTH: Get The App To determine where the Document window lines are on the screen
+        TODO: SIXTH: Figure out when to update images and scroll window (piece of cake)
+        TODO: SIXTH: Get the app To Match up pixel perfect Alignment With Images to lines of code (At least in the center)
+    Incremental Progress Plan : Milestone
+
+##  1ST TIER:TODOS: (put all TODOs and Tasks Here then they will be sorted accordingly)
+    TODO - 
+    TODO - 
+    TODO - 
+    #### ONLY ITEMS BELOW I CAN TEST WITH VSIX: ###
+    TODO: Prioritize drawing image of current class or method on screen
+    TODO:int LineOnScreen = CurrentLineCenterOfScreen(); Self Explanatory
+    TODO:int CaretPosition = ReturnCaretPosition(); Or return Caret position
+    #### ONLY ITEMS ABOVE I CAN TEST WITH VSIX: ###     
+    
+    2ND TIER: SIDE TODDO (feature not immediatly needed for main function):
+         TODO:.....Save images no longer in use to img/ArchiveImages when program closes. we can set as destructor.
+    
+    3RD TIER: PIPEDREAM TODOS BELOW:
+        TODO: Create a button that takes regex input For Method or className
+        TODO: Create a button that takes regex input For Fooking for Methods
+        TODO: Create a button that takes regex input For Fooking for Classes
+        TODO: Create a button that takes regex input
+        Task: Create a button that Sets back to defaults
+        TASK: So If Regex and fillers are not set then it will use Default Regex and fillers filters
+	
+->TASKS Items written `TASK` in the code file are self notes of do be dealt with during coding. They are immediate notes and are to be taken care of immediately.
+If You see a `TASK` item in the then get it done or code erase the item. 
+##SUB TASK LIST CURRENT: These are meant to bedone in the current session of coding or subsequent:
+
+    
+    
+
+
+    First figure out which integrated methods are needed WIP
+    ..Think about it... 
+    
+    * MAINTTASK - create automated tests (used debuger methods)
+    TASK - Do Code cleanup of commented code
+    - refactor for clarity
+    - MAinTask - Huge Code cleanup
+    ; filenames class names 
+    ; MethodNames container cames
+    ; code structure 
+    ; file structure etc 
+    Task - Review BackendSaredLibray To be perfect
+    .....Or create a single file for each search term then add to zip file
+    MainTask - Migrate To vsix Plugin visual studio
+    
+    Tasks Below Need to be Done with visx project
+    * TASK: Then Prioritize from top to bottom and skip if image would be too close to previous image
+        TASK:bool imageHasEnoughRoom = false;
+        TASK:bool DontskipMe = imageHasEnoughRoom ? true : false;        
+    Task - 
+    TASK - 
+    TASK - 
+    TASK - 
+    TASK - 
+    TASK - 
+    TASK - 
+    TASK - 
+
+##Next SubTasK Subsequent Day if needed: Sub-TASK:
+    
+DONE ITEMS ERASE AFTER COMMIT [USE TO GENERATE COMMIT MESSAGES]:
+
+* erase debuger and window xaml.cs to start ove; these file may change extension to keep as archive like .txt
+ * look at xaml.cs fix
+    
+    
+    

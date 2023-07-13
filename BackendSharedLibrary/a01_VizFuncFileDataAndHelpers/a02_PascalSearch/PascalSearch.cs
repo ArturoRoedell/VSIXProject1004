@@ -194,7 +194,7 @@ namespace BackEndSharedLibrary.VizFuncFileDataAndHelpers
 						foreach (IImageResult imageData in enumImageResult)
 						{
 							//Proj Notes : Also Works: (imageData.Url.EndsWith(".png") || imageData.Url.EndsWith(".jpeg") );; Default works well: if (imageData.Url.EndsWith(".png"))
-							if (imageData.Url.EndsWith(".png") || imageData.Url.EndsWith(".jpeg"))
+							if (imageData.Url.EndsWith(".png"))
 							{
 								normalUrlTransferArray[imagIndex00] = imageData.Url;
 								imagIndex00++;
@@ -204,7 +204,7 @@ namespace BackEndSharedLibrary.VizFuncFileDataAndHelpers
 						foreach (IImageResult imageData in enumImageResultCartoon) //
 						{
 							//Proj Notes : Also Works: (imageData.Url.EndsWith(".png") || imageData.Url.EndsWith(".jpeg") );; Default works well: if (imageData.Url.EndsWith(".png"))
-							if (imageData.Url.EndsWith(".png") || imageData.Url.EndsWith(".jpeg"))
+							if (imageData.Url.EndsWith(".png"))
 							{
 								cartoonUrlTransferArray[imagIndex] = imageData.Url;
 								imagIndex++;

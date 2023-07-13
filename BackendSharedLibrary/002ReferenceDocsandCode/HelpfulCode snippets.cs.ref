@@ -1,0 +1,864 @@
+
+// FileName and Relative Path
+{
+	private void Execute(object sender, EventArgs e)
+    {
+        /// Get Open Documents
+        string docName = GetActiveTextEditor();
+        if (docName == null) return;
+    }
+
+	internal static string GetActiveTextEditor()
+    {
+        DTE dte = Package.GetGlobalService(typeof(SDTE)) as DTE;
+        string docName = dte.ActiveDocument.Name;
+        return docName;
+    }
+}
+
+
+//Return Methods And Classes FromAnyCode
+{
+	// NUGET Microsoft.CodeAnalysis.CSharp
+	//.NET Compiler Platform ("Roslyn") support for C#, Microsoft.CodeAnalysis.CSharp.dll. 
+	//     More details at https://aka.ms/roslyn-packages
+	//     This package was built from the source at https://github.com/dotnet/roslyn/commit/c3cc1d0ceeab1a65da0217e403851a1e8a30086a.
+
+	// Finding all references to a method with Roslyn
+	{
+		var mscorlib = PortableExecutableReference.CreateFromAssembly(typeof(object).Assembly);
+		var ws = new AdhocWorkspace();
+		//Create new solution
+		var solId = SolutionId.CreateNewId();
+		var solutionInfo = SolutionInfo.Create(solId, VersionStamp.Create());
+		//Create new project
+		var project = ws.AddProject("Sample", "C#");
+		
+		project = project.AddMetadataReference(mscorlib);
+		//Add project to workspace
+		ws.TryApplyChanges(project.Solution);
+		string text = @"
+		class C
+		{
+		    void M()
+		    {
+		        M();
+		        M();
+		    }
+		}";
+		var sourceText = SourceText.From(text);
+		//Create new document
+		var doc = ws.AddDocument(project.Id, "NewDoc", sourceText);
+		//Get the semantic model
+		var model = doc.GetSemanticModelAsync().Result;
+		//Get the syntax node for the first invocation to M()
+		var methodInvocation = doc.GetSyntaxRootAsync().Result.DescendantNodes().OfType<InvocationExpressionSyntax>().First();
+		var methodSymbol = model.GetSymbolInfo(methodInvocation).Symbol;
+		//Finds all references to M()
+		var referencesToM = SymbolFinder.FindReferencesAsync(methodSymbol,  doc.Project.Solution).Result;
+	}
+
+	//Using Roslyn to find all references
+	using Microsoft.Build.Locator;
+	using Microsoft.CodeAnalysis;
+	using Microsoft.CodeAnalysis.FindSymbols;
+	using Microsoft.CodeAnalysis.MSBuild;
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	namespace Roslyn
+	{
+	    class Program
+	    {
+	        static void Main(string[] args)
+	        {
+	            MSBuildLocator.RegisterDefaults();
+	            var workspace = MSBuildWorkspace.Create();
+	 
+	            var solutionTask = workspace.OpenSolutionAsync(@"D:\Projects\John\PwC.SDK\PwC.SDK\PwC.SDK.sln");
+	            solutionTask.Wait();
+	            var solution = solutionTask.Result;
+	 
+	            var project = solution.Projects.SingleOrDefault(p => p.Name == "PwC.SDK.Web");
+	 
+	            var compilationTask = project.GetCompilationAsync();
+	            compilationTask.Wait();
+	            var compilation = compilationTask.Result;
+	 
+	            //to search for functions within our solution
+	            var myFunction = compilation.GetSymbolsWithName(s => s.StartsWith("TileMetrics"), SymbolFilter.All).FirstOrDefault();
+	 
+	            //to search for all reference of this above function without solution
+	            var callerTask2 = SymbolFinder.FindReferencesAsync(myFunction, solution);
+	 
+	            // to search for function within our solution and all referenced dlls
+	            var externalFunctionsTask = SymbolFinder.FindDeclarationsAsync(project, "MapRoute", true);
+	            externalFunctionsTask.Wait();
+	            var externalFunctions = externalFunctionsTask.Result;
+	 
+	            //SourceLocation
+	 
+	            foreach (var externalFunction in externalFunctions)
+	            {
+	                var callerTask = SymbolFinder.FindReferencesAsync(externalFunction, solution);
+	                callerTask.Wait();
+	                var callers = callerTask.Result;
+	 
+	                Console.WriteLine($"Function name is {externalFunction.ToDisplayString()}");
+	                foreach (var referenced in callers)
+	                {
+	                    Console.WriteLine($"Number of references {referenced.Definition.Name} {referenced.Locations.Count()}");
+	                    foreach (var location in referenced.Locations)
+	                    {
+	                        Console.WriteLine($"FileName (line#) {location.Location.SourceTree.FilePath} ({location.Location.GetLineSpan().StartLinePosition.Line + 1})");
+	                    }
+	                }
+	            }
+	        }
+	    }
+	}
+
+	//CSharpSyntaxWalker
+	public class ClassMethodWalker : CSharpSyntaxWalker
+	{
+	    string className = String.Empty;
+	    public override void VisitClassDeclaration(ClassDeclarationSyntax node)
+	    {
+	        className = node.Identifier.ToString();
+	        base.VisitClassDeclaration(node);
+	    }
+
+	    public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
+	    {
+	        string methodName = node.Identifier.ToString();
+	        Console.WriteLine(className + '.' + methodName);
+	        base.VisitMethodDeclaration(node);
+	    }
+	}
+	static void Main(string[] args)
+	{
+	    var tree = CSharpSyntaxTree.ParseText(@"
+	    public class MyClass
+	    {
+	        public void MyMethod()
+	        {
+	        }
+	    }
+	    public class MyOtherClass
+	    {
+	        public void MyMethod(int n)
+	        {
+	        }
+	    }
+	   ");
+	    var walker = new ClassMethodWalker();
+	    walker.Visit(tree.GetRoot());
+	}
+
+	//Type.GetMethods Method
+	public abstract System.Reflection.MethodInfo[] GetMethods (System.Reflection.BindingFlags bindingAttr);
+	using System;
+	using System.Reflection;
+	using System.Reflection.Emit;
+	public class MyTypeClass
+	{
+	    public void MyMethods()
+	    {
+	    }
+	    public int MyMethods1()
+	    {
+	        return 3;
+	    }
+	    protected String MyMethods2()
+	    {
+	        return "hello";
+	    }
+	}
+	public class TypeMain
+	{
+	    public static void Main()
+	    {
+	        Type myType =(typeof(MyTypeClass));
+	        // Get the public methods.
+	        MethodInfo[] myArrayMethodInfo = myType.GetMethods(BindingFlags.Public|BindingFlags.Instance|BindingFlags.DeclaredOnly);
+	        Console.WriteLine("\nThe number of public methods is {0}.", myArrayMethodInfo.Length);
+	        // Display all the methods.
+	        DisplayMethodInfo(myArrayMethodInfo);
+	        // Get the nonpublic methods.
+	        MethodInfo[] myArrayMethodInfo1 = myType.GetMethods(BindingFlags.NonPublic|BindingFlags.Instance|BindingFlags.DeclaredOnly);
+	        Console.WriteLine("\nThe number of protected methods is {0}.", myArrayMethodInfo1.Length);
+	        // Display information for all methods.
+	        DisplayMethodInfo(myArrayMethodInfo1);		
+	    }
+	    public static void DisplayMethodInfo(MethodInfo[] myArrayMethodInfo)
+	    {
+	        // Display information for all methods.
+	        for(int i=0;i<myArrayMethodInfo.Length;i++)
+	        {
+	            MethodInfo myMethodInfo = (MethodInfo)myArrayMethodInfo[i];
+	            Console.WriteLine("\nThe name of the method is {0}.", myMethodInfo.Name);
+	        }
+	    }
+	}
+
+	//Generate List of methods of a class with method types
+	using System;
+	using System.Linq;
+	class Test
+	{
+	    static void Main()
+	    {
+	        ShowMethods(typeof(DateTime));
+	    }
+
+	    static void ShowMethods(Type type)
+	    {
+	        foreach (var method in type.GetMethods())
+	        {
+	            var parameters = method.GetParameters();
+	            var parameterDescriptions = string.Join
+	                (", ", method.GetParameters()
+	                             .Select(x => x.ParameterType + " " + x.Name)
+	                             .ToArray());
+
+	            Console.WriteLine("{0} {1} ({2})",
+	                              method.ReturnType,
+	                              method.Name,
+	                              parameterDescriptions);
+	        }
+	    }
+	}
+
+	//Returns classes in project. Use dll or exe to work
+		string path = @"C:\Users\ARTURO 001\source\repos\JsonUtilitiesSimple003\src\JsonUtilitiesSimple003_02\bin\Debug\net6.0\FileUtilitiesXT.LibraryV1.0.0.1.dll";
+		var assembly = System.Reflection.Assembly.LoadFile(path);
+		foreach (var type in assembly.GetTypes())
+		{
+			Console.WriteLine(type.Name);
+
+			// do check for type here, depending on how you wish to query
+		}
+}
+
+//-----------------------------------------------------------
+
+// Determine Code Position On Screen
+{
+	//To get the whole line of text where the caret is:
+	var activePoint = ((EnvDTE.TextSelection)dte.ActiveDocument.Selection).ActivePoint;
+	string text = activePoint.CreateEditPoint().GetLines(activePoint.Line, activePoint.Line + 1);
+
+	// class ITextBuffer
+	 {
+	// 	public interface ITextView : Microsoft.VisualStudio.Utilities.IPropertyOwner
+	// 	public Microsoft.VisualStudio.Text.ITextSnapshot CurrentSnapshot { get; }
+	// 	public interface ITextSnapshot
+	 }
+
+	// Properties And Methods
+	{
+		// Properties
+
+		// ContentType	
+		// The IContentType of the TextBuffer when this snapshot was current.
+
+		// Item[Int32]	
+		// Gets a single character at the specified position.
+
+		// Length	
+		// Gets the number of UTF-16 characters contained in the snapshot.
+
+		// LineCount	
+		// Gets the positive number of lines in the snapshot. A snapshot whose Length is zero is considered to have one line.
+
+		// Lines	
+		// An enumerator for the set of lines in the snapshot.
+
+		// TextBuffer	
+		// The ITextBuffer of which this is a snapshot.
+
+		// Version	
+		// The version of the ITextBuffer that this ITextSnapshot represents.
+
+		// Methods
+		// CopyTo(Int32, Char[], Int32, Int32)	
+		// Copies a range of text to a character array.
+
+		// CreateTrackingPoint(Int32, PointTrackingMode)	
+		// Creates a ITrackingPoint against this snapshot.
+
+		// CreateTrackingPoint(Int32, PointTrackingMode, TrackingFidelityMode)	
+		// Creates a ITrackingPoint against this snapshot.
+
+		// CreateTrackingSpan(Int32, Int32, SpanTrackingMode)	
+		// Creates a ITrackingSpan against this snapshot.
+
+		// CreateTrackingSpan(Int32, Int32, SpanTrackingMode, TrackingFidelityMode)	
+		// Creates a ITrackingSpan against this snapshot.
+
+		// CreateTrackingSpan(Span, SpanTrackingMode)	
+		// Creates a ITrackingSpan against this snapshot.
+
+		// CreateTrackingSpan(Span, SpanTrackingMode, TrackingFidelityMode)	
+		// Creates a ITrackingSpan against this snapshot.
+
+		// GetLineFromLineNumber(Int32)	
+		// Gets an ITextSnapshotLine for the given line number.
+
+		// GetLineFromPosition(Int32)	
+		// Gets an ITextSnapshotLine for a line at the given position.
+
+		// GetLineNumberFromPosition(Int32)	
+		// Gets the number of the line that contains the character at the specified position.
+
+		// GetText()	
+		// Gets all the text in the snapshot.
+
+		// GetText(Int32, Int32)	
+		// Gets text from the snapshot starting at startIndex and having length equal to length.
+
+		// GetText(Span)	
+		// Gets text from the snapshot starting at the beginning of the span and having length equal to the length of the span.
+
+		// ToCharArray(Int32, Int32)	
+		// Converts a range of text to a character array.
+
+		// Write(TextWriter)	
+		// Writes the contents of the snapshot.
+
+		// Write(TextWriter, Span)	
+		// Writes a substring of the contents of the snapshot.
+	}
+
+	// ScrollBar.Value Property
+	[System.ComponentModel.Bindable(true)]
+	public int Value { get; set; }
+
+	private void HandleScroll(Object sender, ScrollEventArgs e)
+	{
+	    //Create a graphics object and draw a portion of the image in the PictureBox.
+	    Graphics g = pictureBox1.CreateGraphics();
+
+	    int xWidth = pictureBox1.Width;
+	    int yHeight = pictureBox1.Height;
+
+	    int x;
+	    int y;
+
+	    if (e.ScrollOrientation == ScrollOrientation.HorizontalScroll)
+	    {
+	        x = e.NewValue;
+	        y = vScrollBar1.Value;
+	    }
+	    else //e.ScrollOrientation == ScrollOrientation.VerticalScroll
+	    {
+	        y = e.NewValue;
+	        x = hScrollBar1.Value;
+	    }
+
+	    g.DrawImage(pictureBox1.Image,
+	      new Rectangle(0, 0, xWidth, yHeight),  //where to draw the image
+	      new Rectangle(x, y, xWidth, yHeight),  //the portion of the image to draw
+	      GraphicsUnit.Pixel);
+
+	    pictureBox1.Update();
+	}
+
+	// Line Number Of Caret
+	{
+		//access line 15:
+		string line = File.ReadLines(FileName).Skip(14).Take(1).First();
+
+		// copy the Visual studio current line number
+		private void btnGetLineVS_Click(object sender, EventArgs e)
+		{
+		    EnvDTE80.DTE2 dte2;
+		    dte2 = (EnvDTE80.DTE2)System.Runtime.InteropServices.Marshal.GetActiveObject("VisualStudio.DTE");
+		    dte2.MainWindow.Activate();
+		    int line = ((EnvDTE.TextSelection)dte2.ActiveDocument.Selection).ActivePoint.Line;
+
+		    //Show it to the user the way you like
+		    StringBuilder builder = new StringBuilder();
+		    builder.Append(dte2.ActiveDocument.FullName);//The file name
+		    builder.Append('\t');
+		    builder.Append(line);//The current line
+		    if (builder.Length > 0)
+		    {
+		        Clipboard.SetText(builder.ToString());
+		        MessageBox.Show("Copied to clipboard");
+		    }
+		    else
+		        MessageBox.Show("Nothing!");
+		}
+	}
+}
+
+//-----------------------------------------------------------
+
+//Drawing Images to extension
+{
+	// VSIX image render xamel
+	{
+		<Image Source="pack://application:,,,/VsixImage;component/Resources/qMark.png" Visibility="Visible" Stretch="Fill" Height="80" Width="120"/>
+	}
+
+	// Create a view adornment 
+	// https://learn.microsoft.com/en-us/visualstudio/extensibility/walkthrough-creating-a-view-adornment-commands-and-settings-column-guides?view=vs-2022
+	{
+		[Order(Before = PredefinedAdornmentLayers.Text)]
+		[TextViewRole(PredefinedTextViewRoles.Document)]
+
+		using Microsoft.VisualStudio.Settings;
+		using Microsoft.VisualStudio.Shell;
+		using Microsoft.VisualStudio.Shell.Settings;
+		using System;
+		using System.Collections.Generic;
+		using System.Linq;
+		using System.Text;
+		using System.Windows.Media;
+
+	    internal static class GuidesSettingsManager
+	    {
+	        // Because my code is always called from the UI thred, this succeeds.
+	        internal static SettingsManager VsManagedSettingsManager =
+	            new ShellSettingsManager(ServiceProvider.GlobalProvider);
+
+	        private const int _maxGuides = 5;
+	        private const string _collectionSettingsName = "Text Editor";
+	        private const string _settingName = "Guides";
+	        // 1000 seems reasonable since primary scenario is long lines of code
+	        private const int _maxColumn = 1000;
+
+	        static internal bool AddGuideline(int column)
+	        {
+	            if (! IsValidColumn(column))
+	                throw new ArgumentOutOfRangeException(
+	                    "column",
+	                    "The paramenter must be between 1 and " + _maxGuides.ToString());
+	            var offsets = GuidesSettingsManager.GetColumnOffsets();
+	            if (offsets.Count() >= _maxGuides)
+	                return false;
+	            // Check for duplicates
+	            if (offsets.Contains(column))
+	                return false;
+	            offsets.Add(column);
+	            WriteSettings(GuidesSettingsManager.GuidelinesColor, offsets);
+	            return true;
+	        }
+
+	        static internal bool RemoveGuideline(int column)
+	        {
+	            if (!IsValidColumn(column))
+	                throw new ArgumentOutOfRangeException(
+	                    "column", "The paramenter must be between 1 and 10,000");
+	            var columns = GuidesSettingsManager.GetColumnOffsets();
+	            if (! columns.Remove(column))
+	            {
+	                // Not present.  Allow user to remove the last column
+	                // even if they're not on the right column.
+	                if (columns.Count != 1)
+	                    return false;
+
+	                columns.Clear();
+	            }
+	            WriteSettings(GuidesSettingsManager.GuidelinesColor, columns);
+	            return true;
+	        }
+
+	        static internal bool CanAddGuideline(int column)
+	        {
+	            if (!IsValidColumn(column))
+	                return false;
+	            var offsets = GetColumnOffsets();
+	            if (offsets.Count >= _maxGuides)
+	                return false;
+	            return ! offsets.Contains(column);
+	        }
+
+	        static internal bool CanRemoveGuideline(int column)
+	        {
+	            if (! IsValidColumn(column))
+	                return false;
+	            // Allow user to remove the last guideline regardless of the column.
+	            // Okay to call count, we limit the number of guides.
+	            var offsets = GuidesSettingsManager.GetColumnOffsets();
+	            return offsets.Contains(column) || offsets.Count() == 1;
+	        }
+
+	        static internal void RemoveAllGuidelines()
+	        {
+	            WriteSettings(GuidesSettingsManager.GuidelinesColor, new int[0]);
+	        }
+
+	        private static bool IsValidColumn(int column)
+	        {
+	            // zero is allowed (per user request)
+	            return 0 <= column && column <= _maxColumn;
+	        }
+
+	        // This has format "RGB(<int>, <int>, <int>) <int> <int>...".
+	        // There can be any number of ints following the RGB part,
+	        // and each int is a column (char offset into line) where to draw.
+	        static private string _guidelinesConfiguration;
+	        static private string GuidelinesConfiguration
+	        {
+	            get
+	            {
+	                if (_guidelinesConfiguration == null)
+	                {
+	                    _guidelinesConfiguration =
+	                        GetUserSettingsString(
+	                            GuidesSettingsManager._collectionSettingsName,
+	                            GuidesSettingsManager._settingName)
+	                        .Trim();
+	                }
+	                return _guidelinesConfiguration;
+	            }
+
+	            set
+	            {
+	                if (value != _guidelinesConfiguration)
+	                {
+	                    _guidelinesConfiguration = value;
+	                    WriteUserSettingsString(
+	                        GuidesSettingsManager._collectionSettingsName,
+	                        GuidesSettingsManager._settingName, value);
+	                    // Notify ColumnGuideAdornments to update adornments in views.
+	                    var handler = GuidesSettingsManager.SettingsChanged;
+	                    if (handler != null)
+	                        handler();
+	                }
+	            }
+	        }
+
+	        internal static string GetUserSettingsString(string collection, string setting)
+	        {
+	            var store = GuidesSettingsManager
+	                            .VsManagedSettingsManager
+	                            .GetReadOnlySettingsStore(SettingsScope.UserSettings);
+	            return store.GetString(collection, setting, "RGB(255,0,0) 80");
+	        }
+
+	        internal static void WriteUserSettingsString(string key, string propertyName,
+	                                                     string value)
+	        {
+	            var store = GuidesSettingsManager
+	                            .VsManagedSettingsManager
+	                            .GetWritableSettingsStore(SettingsScope.UserSettings);
+	            store.CreateCollection(key);
+	            store.SetString(key, propertyName, value);
+	        }
+
+	        // Persists settings and sets property with side effect of signaling
+	        // ColumnGuideAdornments to update.
+	        static private void WriteSettings(Color color, IEnumerable<int> columns)
+	        {
+	            string value = ComposeSettingsString(color, columns);
+	            GuidelinesConfiguration = value;
+	        }
+
+	        private static string ComposeSettingsString(Color color,
+	                                                    IEnumerable<int> columns)
+	        {
+	            StringBuilder sb = new StringBuilder();
+	            sb.AppendFormat("RGB({0},{1},{2})", color.R, color.G, color.B);
+	            IEnumerator<int> columnsEnumerator = columns.GetEnumerator();
+	            if (columnsEnumerator.MoveNext())
+	            {
+	                sb.AppendFormat(" {0}", columnsEnumerator.Current);
+	                while (columnsEnumerator.MoveNext())
+	                {
+	                    sb.AppendFormat(", {0}", columnsEnumerator.Current);
+	                }
+	            }
+	            return sb.ToString();
+	        }
+
+	        // Parse a color out of a string that begins like "RGB(255,0,0)"
+	        static internal Color GuidelinesColor
+	        {
+	            get
+	            {
+	                string config = GuidelinesConfiguration;
+	                if (!String.IsNullOrEmpty(config) && config.StartsWith("RGB("))
+	                {
+	                    int lastParen = config.IndexOf(')');
+	                    if (lastParen > 4)
+	                    {
+	                        string[] rgbs = config.Substring(4, lastParen - 4).Split(',');
+
+	                        if (rgbs.Length >= 3)
+	                        {
+	                            byte r, g, b;
+	                            if (byte.TryParse(rgbs[0], out r) &&
+	                                byte.TryParse(rgbs[1], out g) &&
+	                                byte.TryParse(rgbs[2], out b))
+	                            {
+	                                return Color.FromRgb(r, g, b);
+	                            }
+	                        }
+	                    }
+	                }
+	                return Colors.DarkRed;
+	            }
+
+	            set
+	            {
+	                WriteSettings(value, GetColumnOffsets());
+	            }
+	        }
+
+	        // Parse a list of integer values out of a string that looks like
+	        // "RGB(255,0,0) 1, 5, 10, 80"
+	        static internal List<int> GetColumnOffsets()
+	        {
+	            var result = new List<int>();
+	            string settings = GuidesSettingsManager.GuidelinesConfiguration;
+	            if (String.IsNullOrEmpty(settings))
+	                return new List<int>();
+
+	            if (!settings.StartsWith("RGB("))
+	                return new List<int>();
+
+	            int lastParen = settings.IndexOf(')');
+	            if (lastParen <= 4)
+	                return new List<int>();
+
+	            string[] columns = settings.Substring(lastParen + 1).Split(',');
+
+	            int columnCount = 0;
+	            foreach (string columnText in columns)
+	            {
+	                int column = -1;
+	                // VS 2008 gallery extension didn't allow zero, so per user request ...
+	                if (int.TryParse(columnText, out column) && column >= 0)
+	                {
+	                    columnCount++;
+	                    result.Add(column);
+	                    if (columnCount >= _maxGuides)
+	                        break;
+	                }
+	            }
+	            return result;
+	        }
+
+	        // Delegate and Event to fire when settings change so that ColumnGuideAdornments
+	        // can update.  We need nothing special in this event since the settings manager
+	        // is statically available.
+	        //
+	        internal delegate void SettingsChangedHandler();
+	        static internal event SettingsChangedHandler SettingsChanged;
+
+	    }
+	}
+}
+	
+// Image Manipulation
+{
+	// How to: Crop and Scale Images  !!! WINFORMS ONLY !!!
+	{
+		Image image = new Bitmap("Apple.gif");
+		// Draw the image unaltered with its upper-left corner at (0, 0).
+		e.Graphics.DrawImage(image, 0, 0);
+
+		// Make the destination rectangle 30 percent wider and
+		// 30 percent taller than the original image.
+		// Put the upper-left corner of the destination
+		// rectangle at (150, 20).
+		int width = image.Width;
+		int height = image.Height;
+		RectangleF destinationRect = new RectangleF(
+		    150,
+		    20,
+		    1.3f * width,
+		    1.3f * height);
+
+		// Draw a portion of the image. Scale that portion of the image
+		// so that it fills the destination rectangle.
+		RectangleF sourceRect = new RectangleF(0, 0, .75f * width, .75f * height);
+		e.Graphics.DrawImage(
+		    image,
+		    destinationRect,
+		    sourceRect,
+		    GraphicsUnit.Pixel);
+	}
+
+	// Crop Image in C# Gret Website
+	// https://web.archive.org/web/20130126075626/http://www.switchonthecode.com:80/tutorials/csharp-tutorial-image-editing-saving-cropping-and-resizing
+	static Bitmap CropImage(Image orgImg, Rectangle sRect, Rectangle destRect)  
+	{  
+	    if (destRect == null)  
+	    {  
+	        destRect = new Rectangle(Point.Empty, sRect.Size);  
+	    }  
+	    var cropImage = new Bitmap(destRect.Value.Width, destRect.Value.Height);  
+	    using(var graphics = Graphics.FromImage(cropImage))  
+	    {  
+	        graphics.DrawImage(orgImg, destRect.Value, sRect, GraphicsUnit.Pixel);  
+	    }  
+	    return cropImage;  
+	}
+
+	// Crop Image in C# 
+	private static Image cropImage(Image img, Rectangle cropArea)
+	{
+	   Bitmap bmpImage = new Bitmap(img);
+	   return bmpImage.Clone(cropArea, bmpImage.PixelFormat);
+	}  
+}
+
+
+
+// save image to folder:
+WebClient webClient = new WebClient();
+webClient.DownloadFile(remoteFileUrl, localFileName);
+
+
+
+
+public System.Drawing.Image DownloadImageFromUrl(string imageUrl)
+{
+    System.Drawing.Image image = null;
+
+    try
+    {
+        System.Net.HttpWebRequest webRequest = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(imageUrl);
+        webRequest.AllowWriteStreamBuffering = true;
+        webRequest.Timeout = 30000;
+
+        System.Net.WebResponse webResponse = webRequest.GetResponse();
+
+        System.IO.Stream stream = webResponse.GetResponseStream();
+
+        image = System.Drawing.Image.FromStream(stream);
+
+        webResponse.Close();
+    }
+    catch (Exception ex)
+    {
+        return null;
+    }
+
+    return image;
+}
+
+
+protected void btnSave_Click(object sender, EventArgs e)
+{
+    System.Drawing.Image image = DownloadImageFromUrl(txtUrl.Text.Trim());
+
+    string rootPath = @"C:\DownloadedImageFromUrl";
+    string fileName = System.IO.Path.Combine(rootPath, "test.gif");
+    image.Save(fileName);
+}
+
+
+// Copy File To Differnt Directory
+string fileToCopy = "c:\\myFolder\\myFile.txt";
+string destinationDirectory = "c:\\myDestinationFolder\\";
+
+File.Copy(fileToCopy, destinationDirectory + Path.GetFileName(fileToCopy));
+
+
+
+//----------------------------------------
+
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
+class Program
+{
+    static void Main()
+    {
+        string pascalString = "HelloMyDarlingHowareYou";
+        //Console.WriteLine(pascalString);
+        string[] MyStrList = SeparatePascalCaseString(pascalString);
+           
+        //Console.ReadLine();
+
+        foreach(var e in MyStrList)
+        {
+            Console.WriteLine(e);
+        }
+                
+        //Console.Write("\n  Done");
+
+    }
+
+    static string[] SeparatePascalCaseString(string inputString)
+    {
+        var splitString = Regex.Split(inputString, @"(?<!^)(?=[A-Z])(?![A-Z])");
+        return splitString;
+    }
+}
+
+// Remove words from string
+text = text.Replace("And", "").Replace("To", "").Replace("From", "").Replace("The", "");
+
+
+//------------------------------
+
+
+        string strText = "this will become a very long string after my code has done appending it to the stringbuilder ";
+        MatchCollection mc = Regex.Matches(strText, @"\b...\b");
+        string[] strArray = new string[mc.Count];
+        for (int i = 0; i < mc.Count;i++ )
+        {
+            strArray[i] = mc[i].Groups[0].Value;
+        }
+
+
+        ^\t*\s*[a-zA-Z_.\s0-9<>]+\((?:[^)(]+|(?R))*+\)\s*((\/\/)(.*?)\n)*\s*\{
+
+
+
+//--------------------------------
+
+
+//string ActiveCode = "this will become a very long string after my code has done appending it to the stringbuilder ";
+
+
+
+MatchCollection matchCollection = Regex.Matches(ActiveCode, @"^\t*\s*[a-zA-Z_.\s0-9<>]+\((?:[^)(]+|(?R))*+\)\s*((\/\/)(.*?)\n)*\s*\{");
+string[] MethodNames = new string[matchCollection.Count];
+for (int i = 0; i < matchCollection.Count;i++ )
+{
+    MethodNames[i] = matchCollection[i].Groups[0].Value;
+}
+
+for (int i = 0; i < MethodNames.Length; i++)
+{
+    Console.WriteLine(MethodNames[i]);
+}
+
+
+^\t*\s*[a-zA-Z_.\s0-9<>]+\((?:[^)(]+|(?R))*+\)\s*((\/\/)(.*?)\n)*\s*\{
+
+
+
+
+
+	//===================================
+
+	Create a FileStream, attach a BinaryWriter to it, and serialize data using the various BinaryWriter.Write() overloads. Here's an example of the top of my head:
+C#
+int i = 123;
+string s = "Hello";
+double d = 1.23456;
+
+using (FileStream fs = new FileStream (@"C:\foo.dat", FileMode.CreateNew)) {
+  using (BinaryWriter bw = new BinaryWriter (fs) {
+    bw.Write (i);
+    bw.Write (s);
+    bw.Write (d);
+  }
+}
+
+//----------------------
+//Get random Number from one to 10
+Random rnd = new Random();
+int number  = rnd.Next(1, 10);

@@ -1,0 +1,789 @@
+// CS Scratch Code:
+	{
+		var mscorlib = PortableExecutableReference.CreateFromAssembly(typeof(object).Assembly);
+		var project = ws.AddProject("Sample", "C#");
+		project = project.AddMetadataReference(mscorlib);
+		ws.TryApplyChanges(project.Solution);
+		// string text = @"
+		// class C
+		// {
+		//     void M()
+		//     {
+		//         M();
+		//         M();
+		//     }
+		// }";
+		//var sourceText = SourceText.From(text);
+		//Create new document
+		//var doc = ws.AddDocument(project.Id, "NewDoc", sourceText);
+		//Get the semantic model
+		// var model = doc.GetSemanticModelAsync().Result;
+		//Get the syntax node for the first invocation to M()
+		var methodInvocation = doc.GetSyntaxRootAsync().Result.DescendantNodes().OfType<InvocationExpressionSyntax>().First();
+		var methodSymbol = model.GetSymbolInfo(methodInvocation).Symbol;
+		var referencesToM = SymbolFinder.FindReferencesAsync(methodSymbol,  doc.Project.Solution).Result;
+	}
+
+
+// ASYNC EXAMPLE CODE FROM MICROSFOT
+internal class ASYNCexample
+{
+    static async Task Main()
+    {
+        Coffee cup = PourCoffee();
+        Console.WriteLine("coffee is ready");
+
+        var eggsTask = FryEggsAsync(2);
+        var baconTask = FryBaconAsync(3);
+        var toastTask = MakeToastWithButterAndJamAsync(2);
+
+        var breakfastTasks = new List<Task> { eggsTask, baconTask, toastTask };
+        while (breakfastTasks.Count > 0)
+        {
+            Task finishedTask = await Task.WhenAny(breakfastTasks);
+            if (finishedTask == eggsTask)
+            {
+                Console.WriteLine("eggs are ready");
+            }
+            else if (finishedTask == baconTask)
+            {
+                Console.WriteLine("bacon is ready");
+            }
+            else if (finishedTask == toastTask)
+            {
+                Console.WriteLine("toast is ready");
+            }
+            await finishedTask;
+            breakfastTasks.Remove(finishedTask);
+        }
+
+        Juice oj = PourOj();
+        Console.WriteLine("oj is ready");
+        Console.WriteLine("Breakfast is ready!");
+    }
+    
+    #region foodSubClasses
+    
+    private class Bacon { }
+    
+    private class Coffee { }
+    
+    private class Egg { }
+    
+    private class Juice { }
+    
+    private class Toast { }
+
+    #endregion
+
+    #region asyncTasksMethods
+    
+    static async Task<Toast> MakeToastWithButterAndJamAsync(int number)
+    {
+        var toast = await ToastBreadAsync(number);
+        ApplyButter(toast);
+        ApplyJam(toast);
+
+        return toast;
+    }
+
+    private static async Task<Toast> ToastBreadAsync(int slices)
+    {
+        for (int slice = 0; slice < slices; slice++)
+        {
+            Console.WriteLine("Putting a slice of bread in the toaster");
+        }
+        Console.WriteLine("Start toasting...");
+        await Task.Delay(3000);
+        Console.WriteLine("Remove toast from toaster");
+
+        return new Toast();
+    }
+
+    private static async Task<Bacon> FryBaconAsync(int slices)
+    {
+        Console.WriteLine($"putting {slices} slices of bacon in the pan");
+        Console.WriteLine("cooking first side of bacon...");
+        await Task.Delay(3000);
+        for (int slice = 0; slice < slices; slice++)
+        {
+            Console.WriteLine("flipping a slice of bacon");
+        }
+        Console.WriteLine("cooking the second side of bacon...");
+        await Task.Delay(3000);
+        Console.WriteLine("Put bacon on plate");
+
+        return new Bacon();
+    }
+
+    private static async Task<Egg> FryEggsAsync(int howMany)
+    {
+        Console.WriteLine("Warming the egg pan...");
+        await Task.Delay(3000);
+        Console.WriteLine($"cracking {howMany} eggs");
+        Console.WriteLine("cooking the eggs ...");
+        await Task.Delay(3000);
+        Console.WriteLine("Put eggs on plate");
+
+        return new Egg();
+    }
+    
+    #endregion
+    
+    #region ScyncronousTasksMethods
+    
+    private static Coffee PourCoffee()
+    {
+        Console.WriteLine("Pouring coffee");
+        return new Coffee();
+    }
+    
+    private static Juice PourOj()
+    {
+        Console.WriteLine("Pouring orange juice");
+        return new Juice();
+    }
+    
+    private static void ApplyJam(Toast toast) => Console.WriteLine("Putting jam on the toast");
+
+    private static void ApplyButter(Toast toast) => Console.WriteLine("Putting butter on the toast");
+    
+    #endregion
+}
+
+
+
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
+class Program
+{
+    static void Main()
+    {
+        string pascalString = "CinderallaAndCastle";
+
+
+        var MyStrList = SeparatePascalCaseString(pascalString);
+
+        foreach(var e in MyStrList)
+        {
+            //Console.WriteLine(e);
+        }
+    }
+
+
+
+    static string[] SeparatePascalCaseString(string inputString)
+    {
+        var splitString = Regex.Split(inputString, @"(?<!^)(?=[A-Z])");
+        return splitString;
+    }
+}
+
+
+//-------------------------------------
+
+<!-- ImageViewer1.Source = new BitmapImage(new Uri("https://i.pinimg.com/550x/8f/11/37/8f113786adb3f8ce46719e2e0a220ad4.jpg"));   -->
+
+
+
+<StackPanel Orientation="Horizontal">  
+    <Image Source="{dx:DXImage Image=Attachment_16x16.png}" Width="16" Height="16" x:Name="File_1" MouseUp="Image_MouseUp">  
+        <Image.ToolTip>  
+            <Label Content="file1.txt"/>  
+        </Image.ToolTip>  
+    </Image>  
+    <Image Source="{dx:DXImage Image=Attachment_16x16.png}" Width="16" Height="16" x:Name="File_2" MouseUp="Image_MouseUp">  
+        <Image.ToolTip>  
+            <Label Content="file2.txt"/>  
+        </Image.ToolTip>  
+    </Image>  
+</StackPanel> 
+
+
+//-----------------------
+
+            Image img;
+            img = new Image();
+            img.Source = new BitmapImage(new Uri(@"/NexansOlexProcessTools;component/Images/canvasImages/BTrailerOnlyTypeA.png", UriKind.Relative));
+
+            //Set Canvas vales - very important
+            //Canvas.Left = "141" 
+            //Canvas.Top = "116"
+            Canvas.SetLeft(img, 150);
+            Canvas.SetTop(img, 130);
+
+            //set maouse events handlers for each item
+            img.MouseMove += new MouseEventHandler(shape_MouseMove);
+            img.MouseLeftButtonDown += new MouseButtonEventHandler(shape_MouseLeftButtonDown);
+            img.MouseLeftButtonUp += new MouseButtonEventHandler(shape_MouseLeftButtonUp);
+            //xaml settings
+            //MouseLeftButtonDown = "shape_MouseLeftButtonDown" 
+            //MouseLeftButtonUp = "shape_MouseLeftButtonUp" 
+            //MouseMove = "shape_MouseMove"
+            addSemiOnlyCount++;
+            img.Tag = "addSemiOnlyId_" + addSemiOnlyCount;
+            img.Name = "addSemiOnlyId_" + addSemiOnlyCount;
+            img.ToolTip = "Item ID: addSemiOnlyId_" + addSemiOnlyCount;
+            img.Height = 90;
+
+
+            LayoutRoot.Children.Add(img);
+
+
+            //---------------------------------------
+            //-------------------------------------
+
+
+
+
+
+
+//Method Name:
+ReturnListStringParseCodeFindMethods(string codestring)
+{
+    string result = null;
+
+
+
+    if(string)
+
+
+    return result;
+}
+
+    //knowns: pass in file as string
+    //restart for new lines use code \r\n
+
+
+
+
+//-----------------------------------------------
+//------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+public static string MyMethod(string InputStr, MyCleanStr myCleanstr)
+{
+    string NewStringBuild = null;
+    string TransferStr = null;
+    string MyTempStr = null;
+
+    bool skipThis = false;
+
+    System.Text.StringBuilder StrBuilder = new System.Text.StringBuilder("");
+
+    for(i=0; i< mystring.length; i++)
+    {
+
+        int j = 0
+        while(j < myCleanstr.skipMe.Length)
+        {
+
+            //MyTempStr = null;
+
+            StringBuilder Inputbuilder = new System.Text.StringBuilder("");
+            StringBuilder CompareBuilder = new System.Text.StringBuilder("");
+
+
+            if(myCleanstr.skipMe[j] == InputStr[i])
+            {
+                skipThis = true;
+            }
+            else
+            {skipThis = false;}
+
+            i++; 
+            j++;
+        }
+        i = i -j; // This reverbs the characters to the original letters
+
+        string NewStringBuild = null;
+    }
+
+    return NewStringBuild;
+}
+
+
+
+
+//REGEX:
+
+/*
+[a-zA-Z]+\s?\(\)
+
+
+
+(?<=\().*?(?=\))
+
+
+\((?:[^)(]+|(?R))*+\)
+
+
+\((?:[^)(]+|(?R))*+\)\s?\{
+
+
+
+
+
+
+
+
+
+
+//Beggining Of Line no special characters
+^[a-zA-Z_.\s0-9]+
+
+
+// No special characters
+[a-zA-Z_.\s0-9]+
+
+
+//Find public after optinal tab
+^\t*public
+
+
+
+//----------------------------------
+ 
+// ### Regualar Expressions ###
+
+// Look for methods From Chat Gpt
+\b(?:public|private|protected|internal|static|async|override|virtual|abstract|sealed)\s+(?:\w+\s+)*\w+\s*\([^)]*\)\s*[^;]
+
+Optional Tab at begining of line
+^\t*
+
+Words Spaces No Special Characters
+[a-zA-Z_.\s0-9]+
+
+
+Parenthesis nested recursive
+\((?:[^)(]+|(?R))*+\)
+
+
+Open Braket Optinal space
+\s*\{
+
+//Content Between arrows
+<[a-zA-Z_.\s0-9]+>
+
+
+// Finds Patterns that look like functions at start of string including arrows
+^\t*[a-zA-Z_.\s0-9<>]+\((?:[^)(]+|(?R))*+\)\s*\{
+
+
+^\t*\s*[a-zA-Z_.\s0-9<>]+\((?:[^)(]+|(?R))*+\)\s*((\/\/)(.*?)\n)*\s*\{
+
+
+// Regex Add to include optional comments
+((\/\/)(.*?)\n)*\s*
+
+
+*/
+
+    public static void begin()
+    {
+        List<string> MyStrings = new List<string>();
+        MyStrings = DivideStringAtNewLine(CodeExample);
+        foreach (var e in MyStrings)
+        {
+            Console.WriteLine(e);
+        }
+    }
+    public static List<string> DivideStringAtNewLine(string inputString)
+    {
+        List<string> result = new List<string>();
+        result = inputString.Split("\n").ToList();
+        return result;
+    }
+
+
+
+
+// Cinderella Url
+https://www.google.com/imgres?imgurl=https%3A%2F%2Fcdn.custom-cursor.com%2Fdb%2F7629%2Fcinderella-and-glass-slipper-pointer.png&tbnid=Yb9CVCk_iUKClM&vet=12ahUKEwi2sqWQ8MP_AhXKoYQIHbV4DQUQMygPegUIARC7AQ..i&imgrefurl=https%3A%2F%2Fcustom-cursor.com%2Fen%2Fcollection%2Fdisney-cartoons%2Fcinderella-slipper&docid=Du8cEBTKMhA1JM&w=128&h=128&q=cinderella%20cartoon&hl=en&ved=2ahUKEwi2sqWQ8MP_AhXKoYQIHbV4DQUQMygPegUIARC7AQ
+
+
+// Sparkster url
+https://cdn-img.fimfiction.net/user/qult-1578430629-368981-256
+
+
+
+
+        for (int i = 0; i < 20; i++)
+        {
+            UserControl1 UsiMy = new UserControl1();
+
+            UsiMy.Image01.Source = new BitmapImage(new Uri("https://i.pinimg.com/550x/8f/11/37/8f113786adb3f8ce46719e2e0a220ad4.jpg", UriKind.Absolute));
+
+            ScrollingViewer01.Children.Add(UsiMy);
+        }
+
+
+
+<StackPanel x:Name="TrheeStack"  Orientation="VerTical">
+<Image  x:Name="ImageTwo" Stretch="Fill" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Top" />
+</StackPanel>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+for (int i = 0; i < 20; i++)
+{
+    
+
+    ImageWindowUC01 HoriMy = new ImageWindowUC01();
+
+    
+    //Goofy Image
+
+    //UsiMy.Image01.Source = new BitmapImage(new Uri("https://i.pinimg.com/550x/8f/11/37/8f113786adb3f8ce46719e2e0a220ad4.jpg", UriKind.Absolute));
+
+
+    UserControl1 UsiMy = new UserControl1();
+    ScrollingViewer01.Children.Add(UsiMy);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        for (int i = 0; i < 20; i++)
+        {
+            UserControl1 UsiMy = new UserControl1();
+            
+            ImageWindowUC01 HoriMy = new ImageWindowUC01();
+            
+            //Add Goofy Image Url to control
+            HoriMy.Image01.Source = new BitmapImage(new Uri("https://i.pinimg.com/550x/8f/11/37/8f113786adb3f8ce46719e2e0a220ad4.jpg", UriKind.Absolute));
+
+            UsiMy.ContainerHorizontal01.Children.Add(HoriMy);
+            
+            HoriMy.Image01.Source = new BitmapImage(new Uri("https://www.google.com/imgres?imgurl=https%3A%2F%2Fcdn.custom-cursor.com%2Fdb%2F7629%2Fcinderella-and-glass-slipper-pointer.png&tbnid=Yb9CVCk_iUKClM&vet=12ahUKEwi2sqWQ8MP_AhXKoYQIHbV4DQUQMygPegUIARC7AQ..i&imgrefurl=https%3A%2F%2Fcustom-cursor.com%2Fen%2Fcollection%2Fdisney-cartoons%2Fcinderella-slipper&docid=Du8cEBTKMhA1JM&w=128&h=128&q=cinderella%20cartoon&hl=en&ved=2ahUKEwi2sqWQ8MP_AhXKoYQIHbV4DQUQMygPegUIARC7AQ", UriKind.Absolute));
+            UsiMy.ContainerHorizontal01.Children.Add(HoriMy);
+
+            HoriMy.Image01.Source = new BitmapImage(new Uri("https://cdn-img.fimfiction.net/user/qult-1578430629-368981-256", UriKind.Absolute));
+            UsiMy.ContainerHorizontal01.Children.Add(HoriMy);
+
+            ScrollingViewer01.Children.Add(UsiMy);
+        }
+
+
+
+
+
+//---------------------------------------
+// Working Code
+        string sparksterUrl = "https://cdn-img.fimfiction.net/user/qult-1578430629-368981-256";
+        for (int i = 0; i < 20; i++)
+        {
+            UserControl1 UsiMy = new UserControl1();
+            for (int j = 0; j < 3; j++)
+            {
+                ImageWindowUC01 What = new ImageWindowUC01();
+                What.Image01.Source = new BitmapImage(new Uri(sparksterUrl, UriKind.Absolute));
+                UsiMy.ContainerHorizontal01.Children.Add(What);
+            }
+            ScrollingViewer01.Children.Add(UsiMy);
+        }
+//----------------------------
+
+
+    <ItemGroup>
+      <ProjectReference Include="..\BackEndSharedLibrary\BackEndSharedLibrary.csproj" />
+    </ItemGroup>
+
+//Insert This in a try Method
+//for Retriving Image results
+
+//This works better in some situations
+await Mymethod();
+
+//This gives the ask some time to finish
+await Task.Delay(500);
+
+
+//------------------------------
+
+
+//Null check
+using System;
+using System.Collections.Generic;
+
+public class NullChecker
+{
+    public static bool ContainsNull(List<string> stringList)
+    {
+        if (stringList == null)
+        {
+            throw new ArgumentNullException(nameof(stringList));
+        }
+        
+        foreach (string item in stringList)
+        {
+            if (item == null)
+            {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+}
+
+
+
+    <ItemGroup>
+      <Reference Include="GScraper">
+        <HintPath>dlls\GScraper.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+
+Code Ouput:
+
+DEBUGER MAIN:
+StartrekSpockSpaceUniversePlace
+Startrek Spock Space Universe Place
+This is from DEBUG LASt line
+https://kellyplanet.com/imgstt/Spock_and_I-Chaya_Head.png
+Startrek
+https://kellyplanet.com/imgstt/Spock_and_I-Chaya_Head.png
+Spock and I-Chaya | kellyplanet.com
+256
+256
+Spock
+https://kellyplanet.com/wp-content/uploads/2022/06/crew_portraits_cm_spock_lt_cmdr_sm.png
+Lt. Commander Spock | kellyplanet.com
+256
+256
+Space
+https://images.vexels.com/media/users/3/152639/isolated/lists/506b575739e90613428cdb399175e2c8-space-astronaut-cartoon.png
+Space Astronaut Cartoon PNG & SVG Design For T-Shirts
+256
+256
+Universe
+https://miro.medium.com/v2/resize:fit:256/1*kfIZX3JXJsOkb1R5aZssaQ.png
+The Body of the Universe. Let me give you some context to the ...
+256
+256
+Place
+https://cdn.iconscout.com/icon/premium/png-256-thumb/school-location-3417036-2848744.png
+School Location Icon - Download in Colored Outline Style
+256
+256
+
+
+//----------------------------------------------------------------
+
+
+//NOTES:
+//Look look the first two last two words then the whole
+//search term
+
+//Three Ways to search:
+
+//Each word individually
+//First two, second two and third two if applicable
+//First Three Individual words then the whole search term
+
+enum ImageDelivery
+{
+    Individual,
+    FirsLastTwo,
+    ThreeThenWhole
+}
+
+struct 
+{
+    string MethodClassName;
+    ImageDelivery _imageDelivery;
+    Refine _refine;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+// public async Task<string[]> Individual(string MultiWordSeachTerm, ImageDelivery imageDelivery)
+// {
+
+// } 
+
+// public async Task<string[]> FirsLastTwo(string MultiWordSeachTerm, ImageDelivery imageDelivery)
+// {
+
+// } 
+
+// public async Task<string[]> ThreeThenWhole(string MultiWordSeachTerm, ImageDelivery imageDelivery)
+// {
+
+// } 
+
+
+
+//-------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Net.Http;
+using System.Reflection.PortableExecutable;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+public class Test
+{
+    public static void Main ()
+    {
+
+
+
+        Regex rx = new Regex(@"\b(?<word>\w+)\s+(\k<word>)\b",
+            RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        string text = "The the quick brown fox  fox jumps over the lazy dog dog.";
+        MatchCollection matches = rx.Matches(text);
+        Console.WriteLine("{0} matches found in:\n   {1}",
+            matches.Count,
+            text);
+        foreach (Match match in matches)
+        {
+            GroupCollection groups = match.Groups;
+            Console.WriteLine("'{0}' repeated at positions {1} and {2}",
+                groups["word"].Value,
+                groups[0].Index,
+                groups[1].Index);
+        }
+    }
+}
+
+
+//---------------------------
+
+//FROM CHAT GPT
+
+using System;
+using System.Text.RegularExpressions;
+
+string pattern = @"(^\t*\s*[a-zA-Z_.\s0-9<>]+\((?:[^)(]+|(?<Nested>)\(|(?<-Nested>)\))*(?(Nested)(?!))\)\s*((\/\/)(.*?)\n)*\s*\{)";
+MatchCollection matchCollection = Regex.Matches(ActiveCode, pattern);
+string[] MethodNames = new string[matchCollection.Count];
+
+for (int i = 0; i < matchCollection.Count; i++)
+{
+    MethodNames[i] = matchCollection[i].Groups[0].Value;
+}
+
+for (int i = 0; i < MethodNames.Length; i++)
+{
+    Console.WriteLine(MethodNames[i]);
+}
+
+
+
+
+//------------------------------------------------------------
+
+
+
+
+using System;
+using System.Text.RegularExpressions;
+
+public class Example
+{
+   public static void Main()
+   {
+      string pattern = @"\b\w+es\b";
+      string sentence = "NOTES: Any notes or comments are optional.";
+      
+      // Call Matches method without specifying any options.
+      try {
+         foreach (Match match in Regex.Matches(sentence, pattern,RegexOptions.None,TimeSpan.FromSeconds(1)))
+            Console.WriteLine("Found '{0}' at position {1}", match.Value, match.Index);
+      }
+      catch (RegexMatchTimeoutException) {
+         // Do Nothing: Assume that timeout represents no match.
+      }
+      Console.WriteLine();
+
+      // Call Matches method for case-insensitive matching.
+      try { 
+         foreach (Match match in Regex.Matches(sentence, pattern, RegexOptions.IgnoreCase))
+            Console.WriteLine("Found '{0}' at position {1}", 
+                              match.Value, match.Index);
+      }
+      catch (RegexMatchTimeoutException) {}
+   }
+}
+// The example displays the following output:
+//       Found 'notes' at position 11
+//       
+//       Found 'NOTES' at position 0
+//       Found 'notes' at position 11
+
+
+//--------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+

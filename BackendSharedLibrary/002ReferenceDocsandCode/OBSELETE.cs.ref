@@ -1,0 +1,149 @@
+﻿// ### THIS FILE IS CURRENTLY OBSOLETE ARCHIVE PURPOSES ONLY ####
+// KEEP THE FILE FOR EASY TESTING OLDER CODE AND APPS I WROTE
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+
+
+public class OBSELETE
+{
+
+	public static void OldMain()
+	{
+		
+		return;
+		List<Author> AuthorList = new List<Author>();
+		
+		AuthorList.Add(new Author("Mahesh Chand", 35, "A Prorammer's Guide to ADO.NET", true, new DateTime(2003,7,10)));
+		AuthorList.Add(new Author("Neel Beniwal", 18, "Graphics Development with C#", false, new DateTime(2010, 2, 22)));
+		AuthorList.Add(new Author("Praveen Kumar", 28, "Mastering WCF", true, new DateTime(2012, 01, 01)));
+		AuthorList.Add(new Author("Mahesh Chand", 35, "Graphics Programming with GDI+", true, new DateTime(2008, 01, 20)));
+		AuthorList.Add(new Author("Raj Kumar", 30, "Building Creative Systems", false, new DateTime(2011, 6, 3)));
+		
+		foreach (var author in AuthorList)
+		{
+			Console.WriteLine("Author: {0},{1},{2},{3},{4}", author.Name, author.Age, author.Title, author.Mvp, author.Pubdate);
+		}
+
+		
+		List<string> list1 = new List<string>();
+		
+		// list elements
+		list1.Add("A");
+		list1.Add("I");
+		list1.Add("G");
+		list1.Add("B");
+		list1.Add("E");
+		list1.Add("H");
+		list1.Add("F");
+		list1.Add("C");
+		list1.Add("J");
+
+		Console.WriteLine("Original List");
+		
+		// Display Original List
+		Display(list1);
+		
+		// "gg" is the object
+		GFG gg = new GFG();
+	
+		Console.WriteLine("\nSort with a comparer:");
+		
+		// sort the list with a
+		// specified comparer "gg"
+		list1.Sort(gg);
+		
+		// Display sorted List
+		Display(list1);
+		
+		Console.WriteLine("\nBinarySearch and Insert D");
+
+		// Binary Search for "D"
+		// using List.BinarySearch(T) method
+		int index = list1.BinarySearch("D");
+
+		if (index < 0)
+		{
+			
+			// range++;
+			list1.Insert(~index, "D");
+			
+		}
+
+		// Display the List after
+		// inserting "D"
+		Display(list1);
+		
+		static void Display(List<string> list)
+		{
+			foreach( string g in list )
+			{
+				Console.WriteLine(g);
+			}
+		}
+	}
+}
+
+public class Author
+{
+	public string Name {get; set;}
+	public short Age {get; set;}
+	public string Title {get; set;}
+	public bool Mvp {get; set;}
+	public DateTime Pubdate {get; set;}
+
+	public Author(string name, short age, string title, bool mvp, DateTime pubdate)
+	{
+		this.Name = name;
+		this.Age = age;
+		this.Title = title;
+		this.Mvp = mvp;
+		this.Pubdate = pubdate;
+	}
+	
+}
+
+class GFG : IComparer<string>
+{
+	public int Compare(string x, string y)
+	{
+		
+		if (x == null || y == null)
+		{
+			return 0;
+		}
+		
+		// "CompareTo()" method
+		return x.CompareTo(y);
+		
+	}
+}
+
+
+
+
+
+//return; // EXITS HERE !!! Prematurely exits PROGRAM
+//Console.WriteLine("Hello, World!");
+//more.Mytest01.begin001();
+
+
+namespace more
+{
+	
+	class Mytest01
+	{
+		public static void begin001()
+		{
+			string MyPath = @"C:\Users\ARTURO 001\source\repos\VsixVisualizeMethodsAndClasses\file.txt";
+			if (File.Exists(MyPath)) {
+				Console.WriteLine("YES YES Specified file exists.");
+			}
+			else 
+			{
+				Console.WriteLine("NO NO Specified file does not "+ "exist in the current directory.");
+			}
+		}
+	}
+}

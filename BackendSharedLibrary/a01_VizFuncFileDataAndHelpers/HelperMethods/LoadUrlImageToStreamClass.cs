@@ -10,7 +10,7 @@ using static BackEndSharedLibrary.OtherMiscFuncs.BaseFuncs.PrintClass;
 
 namespace BackEndSharedLibrary.VizFuncFileDataAndHelpers.HelperMethods
 {
-	public class LoadUrlImageToStreamClass
+	/*public class LoadUrlImageToStreamClass
 	{
 		//Proj Notes: This Method loads the image into ram into System.Drawing.Image object
 		public static async Task<MediaTypeNames.Image> LoadUrlImageToStream(string imageUrl)
@@ -32,5 +32,5 @@ namespace BackEndSharedLibrary.VizFuncFileDataAndHelpers.HelperMethods
 			}
 			return image;
 		}
-	}
+	}*/
 }
