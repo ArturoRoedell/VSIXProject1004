@@ -1,0 +1,220 @@
+//WideWindowUC01.xaml.cs
+using System.Windows.Controls;
+
+namespace VsixVisualizeMethodsAndClasses;
+
+/// <summary>
+///     Interaction logic for WideWindowUC01.xaml
+/// </summary>
+public partial class WideWindowUC01 : UserControl
+{
+	public WideWindowUC01()
+	{
+		InitializeComponent();
+	}
+}
+
+//WideWindowUC01.xaml
+<UserControl x:Class="VsixVisualizeMethodsAndClasses.WideWindowUC01"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="60" d:DesignWidth="150">
+  <Grid>
+    <StackPanel Orientation="Horizontal" x:Name="ContainerHorizontal01" Width="150" Height="60"
+                HorizontalAlignment="Left" VerticalAlignment="Top" />
+  </Grid>
+</UserControl>
+
+//-----------------------------------------------
+
+//ImageWindowUC01.xaml.cs
+using System.Windows.Controls;
+
+namespace VsixVisualizeMethodsAndClasses;
+
+/// <summary>
+///     Interaction logic for ImageWindowUC01.xaml
+/// </summary>
+public partial class ImageWindowUC01 : UserControl
+{
+	public ImageWindowUC01()
+	{
+		InitializeComponent();
+	}
+}
+
+//ImageWindowUC01.xaml
+<UserControl x:Class="VsixVisualizeMethodsAndClasses.ImageWindowUC01"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="50" d:DesignWidth="50">
+  <Grid>
+    <Image x:Name="Image01" Stretch="Fill" Width="50" Height="50" HorizontalAlignment="Left" VerticalAlignment="Top" />
+  </Grid>
+</UserControl>
+
+//-----------------------------------------------------
+
+
+//insert This in the Main Window .xaml
+
+		<ScrollViewer x:Name="ScrollingViewer02" Background="#FF6594D6" Margin="749,49,30,100">
+			<StackPanel x:Name="ScrollingViewer01" Orientation="VerTical" HorizontalAlignment="Left" />
+		</ScrollViewer>
+
+//.xaml.cs
+		try
+		{
+			ScrollingViewer01.Children.Add(UsiMy);
+		}
+		catch (Exception e)
+		{
+
+		}
+
+//=======================================================================
+
+//========================================================================
+
+//  Main Window .xaml.cs example
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using BackEndSharedLibrary;
+using BackEndSharedLibrary.VizFuncFileDataAndHelpers;
+using BackEndSharedLibrary.OtherMiscFuncs.BaseFuncs;
+using Path = System.Windows.Shapes.Path;
+using static BackEndSharedLibrary.OtherMiscFuncs.BaseFuncs.PrintClass;
+using static BackEndSharedLibrary.VizFuncFileDataAndHelpers.VizFuncFileData;
+
+namespace VsixVisualizeMethodsAndClasses;
+
+public partial class MainWindow : Window
+{
+	#region Attributes
+	private  string VisFuncDataFilePath;
+	private  string ActiveCodeFilePath;
+	private  string ActiveCode;
+	private string OutputWindowBuffer = "";
+	#endregion
+	
+	public MainWindow()
+	{
+		ActiveCodeFilePath = @"C:\Users\ARTURO 001\source\repos\001ScratchCode\001ReadCodeFile\TestCodeFile.cs";
+		ActiveCode = FileContentsClass.ReadFileContents(ActiveCodeFilePath);
+		VisFuncDataFilePath = imageFileDirPath + @"\Test01A.json";//This shold match the name of the codefile with _VizFuncSuffix
+		InitializeComponent();
+		CodeViewWindow.Text = ActiveCode;
+	}
+	
+	async Task PrintOutputWindow(string appendThis = "")
+	{
+		OutputWindowBuffer = OutputWindowBuffer + "\n" + appendThis;
+		outputTextBox.Text = OutputWindowBuffer;
+		printl(appendThis);
+	}
+	
+	private void TestImageWindow_Button_Click(object sender, RoutedEventArgs e)
+	{
+		TestImageWindow();
+	}
+	
+	private async Task TestImageWindow()
+	{
+		imageFileDirPath = @"C:\Users\ARTURO 001\source\repos\VsixVisualizeMethodsAndClasses\TestFolder002\";
+		VizFuncFileData Mc = new(ActiveCode);
+		Mc.CodeFullFilePath = ActiveCodeFilePath;
+		PascalSearch.RefineResultOptions refineOpt = new PascalSearch.RefineResultOptions();
+		Mc._RefineResultForPascal = refineOpt;
+		await Mc.AllocatePascalSearchListAndGetUrls();
+		await MainMethods.SubMethods.DownloadAllImagesFourEach(Mc);
+		foreach ( var newPascalSearch in Mc.PascalSearchList)
+		{
+			PrintOutputWindow();
+			PrintOutputWindow("############################################");
+			PrintOutputWindow("NAME: " + newPascalSearch.MethodClassName);
+			PrintOutputWindow("############################################");
+			PrintOutputWindow();
+			await PascalImagesToScreen(newPascalSearch, newPascalSearch.FinalWordCount);
+			for (int i = 0; i < newPascalSearch.FinalWordCount; i++)
+			{
+				PrintOutputWindow(newPascalSearch.ImageResultsUrl[i,0]);
+			}
+		}
+		foreach (var PairList in Mc.LineNumberPascalNamePairList)
+		{
+			PrintOutputWindow(PairList.pascalNames);
+			PrintOutputWindow("Line_NUmber: #" + PairList.lineNumber.ToString());
+			PrintOutputWindow("----------------------------------------------------------");
+		}
+		
+		MainMethods.SubMethods.SaveAllVizfuncDataToFile(Mc);
+	}
+	
+	private async Task PascalImagesToScreen(PascalSearch pascalSearch, int cap)
+	{
+		WideWindowUC01 UsiMy = new();
+		PrintOutputWindow("cap = " + cap);
+		int i = 0;
+		for (int j = 0; j < cap; j++) //Proj Notes - This Loop is capped twice. This line contains the hard cap which should not exceed four
+		{
+			string ImagePath = ImageFileFullPath(pascalSearch.MultiWordSearchTerms[j]);
+			string fullPath = ReturnFullPathClass.ReturnFullPath(ImagePath);
+			if (i >= 4)
+			 {
+			 	break;
+			 }
+			i++;
+			try
+			{
+				ImageWindowUC01 What = new();
+				What.Image01.Source = new BitmapImage(
+					new Uri(fullPath, UriKind.RelativeOrAbsolute));
+				UsiMy.ContainerHorizontal01.Children.Add(What);
+			}
+			catch (Exception e)
+			{
+			}
+		}
+		
+		try
+		{
+			ScrollingViewer01.Children.Add(UsiMy);
+		}
+		catch (Exception e)
+		{
+
+		}
+	}
+}
+
+
+//============================
+
+
+			<Image x:Name="TestOnlyImage01" Stretch="Fill" Width="50" Height="50" Source="{Binding Source=name}" />
+
+
+						this.TestOnlyImage01.Source =  new BitmapImage(
+				new Uri(TestUrl, UriKind.Absolute)); 
+
+//-------------------------------------
+			if (TestUrl == "")
+			{
+				TestUrl = @"https://www.citypng.com/public/uploads/preview/settings-gear-cartoon-vector-icon-11640708627sp1y41drye.png";
+			}
+//--------------------------------------------------
