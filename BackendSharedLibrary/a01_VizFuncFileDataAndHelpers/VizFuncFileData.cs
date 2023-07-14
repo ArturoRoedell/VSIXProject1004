@@ -101,7 +101,7 @@ namespace BackEndSharedLibrary.VizFuncFileDataAndHelpers
 			PascalSearch PascalSearchWithUrls = new PascalSearch(_RefineResultForPascal);
 			List<PascalSearch> TransferPascal = new List<PascalSearch>();
 			foreach (var methodOrClass in this.MethodsAndClassesList)
-			{
+			{//BUG FIX BUG IS BELOW; I believe the interaction vsix and await
 				newPascalSearch = await PascalSearch.asyncReturnPascalNameSearch(methodOrClass);
 				PascalSearchWithUrls = await Task.Run(() => PascalSearch.LoopThorughWordsGetImages(newPascalSearch)); //.WaitAsync(TimeSpan.FromMinutes(10));
 				TransferPascal.Add(PascalSearchWithUrls);
@@ -145,7 +145,7 @@ namespace BackEndSharedLibrary.VizFuncFileDataAndHelpers
 		{
 			string fullFilepath = imageFileDirPath + ImageName + "_0" + imageIndex + ".png";
 			return fullFilepath;
-		}
+		}//FIX MakeC conver to Absolute
 
 		internal List<LineNumberPascalNamePair> SortLineNumberNamesList()
 		{
@@ -176,7 +176,8 @@ namespace BackEndSharedLibrary.VizFuncFileDataAndHelpers
 
 		#region Public_Attributes
 		//Proj Notes: important to fix relative path when Migrating library
-		public static string imageFileDirPath { get; set; } = @"..\..\..\..\Viz_func_Images\";
+		//public static string imageFileDirPath { get; set; } = @"..\..\..\..\Viz_func_Images\";
+		public static string imageFileDirPath { get; set; } = @"C:\Users\ARTURO 001\source\repos\VSIXProject1004\Viz_func_Images\";
 		public string ActiveCode { get; set; }
 		public List<string> MethodsList { get; set; }
 		public List<string> ClassesList { get; set; }

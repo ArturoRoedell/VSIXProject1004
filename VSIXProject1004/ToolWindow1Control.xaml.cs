@@ -11,7 +11,6 @@ using BackEndSharedLibrary.OtherMiscFuncs.BaseFuncs;
 using static BackEndSharedLibrary.VizFuncFileDataAndHelpers.VizFuncFileData;
 using FileUtilitiesXTUtil;
 
-
 namespace VSIXProject1004
 {
 	public partial class ToolWindow1Control : UserControl
@@ -25,8 +24,8 @@ namespace VSIXProject1004
 		[SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Default event handler naming pattern")]
 		private void button1_Click(object sender, RoutedEventArgs e)
 		{
-			MyTestImage01();
-			MyTestImage01();
+			//MyTestImage01();
+			//MyTestImage01();
 
 			TestImageWindow();
 
@@ -45,6 +44,18 @@ namespace VSIXProject1004
 		
 		private async Task TestImageWindow()
 		{
+
+
+			string TestOnly  = VizFuncFileData.imageFileDirPath;
+			TestOnly  = VizFuncFileData.imageFileDirPath;
+			TestOnly = TestOnly;
+
+
+			string getAbsolute = Path.GetFullPath(TestOnly);
+			getAbsolute = Path.GetFullPath(TestOnly);
+			getAbsolute = getAbsolute;
+
+
 			string ActiveCodeFilePath = @"C:\Users\ARTURO 001\source\repos\001ScratchCode\001ReadCodeFile\TestCodeFile.cs";
 
 			FileUtilitiesXT fileUtilitiesXT = new FileUtilitiesXT();
@@ -74,6 +85,7 @@ namespace VSIXProject1004
 			{
 				string ImagePath = ImageFileFullPath(pascalSearch.MultiWordSearchTerms[j]);
 				string fullPath = ReturnFullPathClass.ReturnFullPath(ImagePath);
+				fullPath = fullPath; //DEBUG ONLY 
 				if (i >= 4)
 				{
 					break;
