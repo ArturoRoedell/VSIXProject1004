@@ -40,6 +40,9 @@
     <Reference Include="FileUtilitiesXT.Library">
       <HintPath>..\..\..\..\.nuget\packages\arturoroedell.util.fileutilitiesxt\1.0.0\lib\net6.0\FileUtilitiesXT.Library.dll</HintPath>
     </Reference>
+    <Reference Include="FileUtilitiesXT.LibraryV1.0.0.1">
+      <HintPath>a99_LibrariesTypesMiscFunctions\dlls\FileUtilitiesXT.LibraryV1.0.0.1.dll</HintPath>
+    </Reference>
     <Reference Include="GScraper">
       <HintPath>a99_LibrariesTypesMiscFunctions\dlls\GScraper.dll</HintPath>
     </Reference>

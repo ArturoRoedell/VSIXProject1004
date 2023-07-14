@@ -70,6 +70,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="FileUtilitiesXT.LibraryV1.0.0.1">
+      <HintPath>..\BackendSharedLibrary\a99_LibrariesTypesMiscFunctions\dlls\FileUtilitiesXT.LibraryV1.0.0.1.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />

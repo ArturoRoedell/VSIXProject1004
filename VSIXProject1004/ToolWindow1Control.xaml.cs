@@ -1,13 +1,16 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Controls;
-using System;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using BackEndSharedLibrary;
 using BackEndSharedLibrary.VizFuncFileDataAndHelpers;
 using BackEndSharedLibrary.OtherMiscFuncs.BaseFuncs;
 using static BackEndSharedLibrary.VizFuncFileDataAndHelpers.VizFuncFileData;
+using FileUtilitiesXTUtil;
+
 
 namespace VSIXProject1004
 {
@@ -24,26 +27,80 @@ namespace VSIXProject1004
 		{
 			MyTestImage01();
 			MyTestImage01();
+
+			TestImageWindow();
+
+			//var t = Task.Run(() => TestImageWindow());
+			//t.Wait();
+
+
+			/*MyTestImage01();
 			MyTestImage01();
 			MyTestImage01();
 			MyTestImage01();
 			MyTestImage01();
 			MyTestImage01();
+			MyTestImage01();*/
 		}
 		
 		private async Task TestImageWindow()
 		{
 			string ActiveCodeFilePath = @"C:\Users\ARTURO 001\source\repos\001ScratchCode\001ReadCodeFile\TestCodeFile.cs";
-			string ActiveCode = FileContentsClass.ReadFileContents(ActiveCodeFilePath);
+
+			FileUtilitiesXT fileUtilitiesXT = new FileUtilitiesXT();
+			string ActiveCode = fileUtilitiesXT.ReadFromFile(ActiveCodeFilePath);
+
+
+			//string ActiveCode = FileContentsClass.ReadFileContents(ActiveCodeFilePath);
 			VizFuncFileData Mc = new VizFuncFileData(ActiveCode);
 			Mc.CodeFullFilePath = ActiveCodeFilePath;
 			PascalSearch.RefineResultOptions refineOpt = new PascalSearch.RefineResultOptions();
 			Mc._RefineResultForPascal = refineOpt;
 			await Mc.AllocatePascalSearchListAndGetUrls();
 			await MainMethods.SubMethods.DownloadAllImagesFourEach(Mc);
+			foreach ( var newPascalSearch in Mc.PascalSearchList)
+			{
+				await PascalImagesToScreen(newPascalSearch, newPascalSearch.FinalWordCount);
+			}
+			
 			MainMethods.SubMethods.SaveAllVizfuncDataToFile(Mc);
 		}
-		
+
+		private async Task PascalImagesToScreen(PascalSearch pascalSearch, int cap)
+		{
+			WideWindowUC01 UsiMy = new WideWindowUC01();
+			int i = 0;
+			for (int j = 0; j < cap; j++) //Proj Notes - This Loop is capped twice. This line contains the hard cap which should not exceed four
+			{
+				string ImagePath = ImageFileFullPath(pascalSearch.MultiWordSearchTerms[j]);
+				string fullPath = ReturnFullPathClass.ReturnFullPath(ImagePath);
+				if (i >= 4)
+				{
+					break;
+				}
+				i++;
+				try
+				{
+					ImageWindowUC01 What = new ImageWindowUC01();
+					What.Image01.Source = new BitmapImage(
+						new Uri(fullPath, UriKind.RelativeOrAbsolute));
+					UsiMy.ContainerHorizontal01.Children.Add(What);
+				}
+				catch (Exception e)
+				{
+				}
+			}
+
+			try
+			{
+				ScrollingViewer01.Children.Add(UsiMy);
+			}
+			catch (Exception e)
+			{
+
+			}
+		}
+
 		private async void MyTestImage01(string TestUrl = "")
 		{
 			WideWindowUC01 UsiMy = new WideWindowUC01();
@@ -78,5 +135,9 @@ namespace VSIXProject1004
 
 			}
 		}	
+		
+
+		
+		
 	}
 }
