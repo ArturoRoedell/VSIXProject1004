@@ -22,12 +22,14 @@ namespace VSIXProject1004
 		}
 		[SuppressMessage("Microsoft.Globalization", "CA1300:SpecifyMessageBoxOptions", Justification = "Sample code")]
 		[SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Default event handler naming pattern")]
-		private void button1_Click(object sender, RoutedEventArgs e)
+		private async void button1_Click(object sender, RoutedEventArgs e)
 		{
 			//MyTestImage01();
 			//MyTestImage01();
 
-			TestImageWindow();
+			//TestImageWindow();
+
+			await TestImageWindow();
 
 			//var t = Task.Run(() => TestImageWindow());
 			//t.Wait();
@@ -40,6 +42,12 @@ namespace VSIXProject1004
 			MyTestImage01();
 			MyTestImage01();
 			MyTestImage01();*/
+		}
+
+		private async Task Middle()
+		{
+			try { await TestImageWindow(); }
+			catch { }
 		}
 		
 		private async Task TestImageWindow()
@@ -68,16 +76,20 @@ namespace VSIXProject1004
 			PascalSearch.RefineResultOptions refineOpt = new PascalSearch.RefineResultOptions();
 			Mc._RefineResultForPascal = refineOpt;
 			await Mc.AllocatePascalSearchListAndGetUrls();
-			await MainMethods.SubMethods.DownloadAllImagesFourEach(Mc);
+			//await MainMethods.SubMethods.DownloadAllImagesFourEach(Mc);
+			int DEbug02 = Mc.MethodsAndClassesList.Count;
+			DEbug02 = DEbug02;
 			foreach ( var newPascalSearch in Mc.PascalSearchList)
 			{
-				await PascalImagesToScreen(newPascalSearch, newPascalSearch.FinalWordCount);
+				string Debug01 = newPascalSearch.MethodClassName;
+				Debug01 = Debug01;
+				PascalImagesToScreen(newPascalSearch, newPascalSearch.FinalWordCount);
 			}
 			
-			MainMethods.SubMethods.SaveAllVizfuncDataToFile(Mc);
+			//MainMethods.SubMethods.SaveAllVizfuncDataToFile(Mc);
 		}
 
-		private async Task PascalImagesToScreen(PascalSearch pascalSearch, int cap)
+		private void PascalImagesToScreen(PascalSearch pascalSearch, int cap)
 		{
 			WideWindowUC01 UsiMy = new WideWindowUC01();
 			int i = 0;

@@ -24,7 +24,7 @@ namespace BackEndSharedLibrary.VizFuncFileDataAndHelpers
 		//Important Proj Notes: This subclass only separates already found classes or method names into individual words then searches for url images
 		public class PascalSearch
 		{
-			public static async Task<PascalSearch> asyncReturnPascalNameSearch(string inputString)
+			public static PascalSearch asyncReturnPascalNameSearch(string inputString)
 			{
 				static string[] ModifyInputstring(string intputStringOne, out string WholeSearchTerm)
 				{
