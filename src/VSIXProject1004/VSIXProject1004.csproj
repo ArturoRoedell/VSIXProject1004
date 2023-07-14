@@ -45,23 +45,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ImageWindowUC01.xaml.cs">
-      <DependentUpon>ImageWindowUC01.xaml</DependentUpon>
+    <Compile Include="09aMiscOther\UserControls\ImageWindowUC01\ImageWindowUC01.xaml.cs">
+      <DependentUpon>09aMiscOther\UserControls\ImageWindowUC01\ImageWindowUC01.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ToolWindow1.cs" />
-    <Compile Include="ToolWindow1Command.cs" />
-    <Compile Include="ToolWindow1Control.xaml.cs">
-      <DependentUpon>ToolWindow1Control.xaml</DependentUpon>
+    <Compile Include="01aToolWindow1Contol\Command\ToolWindow1.cs" />
+    <Compile Include="01aToolWindow1Contol\Command\ToolWindow1Command.cs" />
+    <Compile Include="01aToolWindow1Contol\ToolWindow1Control.xaml.cs">
+      <DependentUpon>01aToolWindow1Contol\ToolWindow1Control.xaml</DependentUpon>
     </Compile>
-    <Compile Include="VSIXProject1004Package.cs" />
-    <Compile Include="VSIXProject1004Package1.cs">
+    <Compile Include="VSIXProject1004Package\VSIXProject1004Package.cs" />
+    <Compile Include="VSIXProject1004Package\VSIXProject1004Package1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>VSIXProject1004Package.vsct</DependentUpon>
+      <DependentUpon>VSIXProject1004Package\VSIXProject1004Package.vsct</DependentUpon>
     </Compile>
-    <Compile Include="WideWindowUC01.xaml.cs">
-      <DependentUpon>WideWindowUC01.xaml</DependentUpon>
+    <Compile Include="09aMiscOther\UserControls\WideWindowUC01\WideWindowUC01.xaml.cs">
+      <DependentUpon>09aMiscOther\UserControls\WideWindowUC01\WideWindowUC01.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -94,25 +94,27 @@
     <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.6.2164" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="ImageWindowUC01.xaml">
+
+    <Page Include="09aMiscOther\UserControls\ImageWindowUC01\ImageWindowUC01.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ToolWindow1Control.xaml">
+    
+    <Page Include="01aToolWindow1Contol\ToolWindow1Control.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="WideWindowUC01.xaml">
+    <Page Include="09aMiscOther\UserControls\WideWindowUC01\WideWindowUC01.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\ToolWindow1Command.png" />
-    <VSCTCompile Include="VSIXProject1004Package.vsct">
+    <VSCTCompile Include="VSIXProject1004Package\VSIXProject1004Package.vsct">
       <Generator>VsctGenerator</Generator>
       <ResourceName>Menus.ctmenu</ResourceName>
-      <LastGenOutput>VSIXProject1004Package1.cs</LastGenOutput>
+      <LastGenOutput>VSIXProject1004Package\VSIXProject1004Package1.cs</LastGenOutput>
     </VSCTCompile>
   </ItemGroup>
   <ItemGroup>
