@@ -45,26 +45,6 @@
         <Reference Include="PresentationCore" />
         <Reference Include="PresentationFramework" />
     </ItemGroup>
-    
-    //----------------Below----------------------------------
-    <ItemGroup>
-        <Page Include="09aMiscOther\UserControls\WideWindowUC01\WideWindowUC01.xaml">
-            <SubType>Designer</SubType>
-            <Generator>MSBuild:Compile</Generator>
-        </Page>
-        <Page Include="09aMiscOther\UserControls\ImageWindowUC01\ImageWindowUC01.xaml">
-            <SubType>Designer</SubType>
-            <Generator>MSBuild:Compile</Generator>
-        </Page>
-        <Compile Include="09aMiscOther\UserControls\WideWindowUC01\WideWindowUC01.xaml.cs">
-            <DependentUpon>09aMiscOther\UserControls\WideWindowUC01\WideWindowUC01.xaml</DependentUpon>
-        </Compile>
-        <Compile Include="09aMiscOther\UserControls\ImageWindowUC01\ImageWindowUC01.xaml.cs">
-            <DependentUpon>09aMiscOther\UserControls\ImageWindowUC01\ImageWindowUC01.xaml</DependentUpon>
-        </Compile>
-    </ItemGroup>
-    //------------------Added------------------------------
-    
     <ItemGroup>
         <ApplicationDefinition Include="App.xaml">
             <Generator>MSBuild:Compile</Generator>
@@ -73,6 +53,14 @@
         <Page Include="MainWindow.xaml">
             <Generator>MSBuild:Compile</Generator>
             <SubType>Designer</SubType>
+        </Page>
+        <Page Include="09aMiscOther\UserControls\WideWindowUC01\WideWindowUC01.xaml">
+            <SubType>Designer</SubType>
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
+        <Page Include="09aMiscOther\UserControls\ImageWindowUC01\ImageWindowUC01.xaml">
+            <SubType>Designer</SubType>
+            <Generator>MSBuild:Compile</Generator>
         </Page>
         <Compile Include="App.xaml.cs">
             <DependentUpon>App.xaml</DependentUpon>
@@ -84,6 +72,12 @@
         </Compile>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="09aMiscOther\UserControls\WideWindowUC01\WideWindowUC01.xaml.cs">
+            <DependentUpon>09aMiscOther\UserControls\WideWindowUC01\WideWindowUC01.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="09aMiscOther\UserControls\ImageWindowUC01\ImageWindowUC01.xaml.cs">
+            <DependentUpon>09aMiscOther\UserControls\ImageWindowUC01\ImageWindowUC01.xaml</DependentUpon>
+        </Compile>
         <Compile Include="Properties\AssemblyInfo.cs">
             <SubType>Code</SubType>
         </Compile>
