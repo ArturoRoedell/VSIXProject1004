@@ -54,11 +54,11 @@
     <Compile Include="01aToolWindow1Contol\ToolWindow1Control.xaml.cs">
       <DependentUpon>01aToolWindow1Contol\ToolWindow1Control.xaml</DependentUpon>
     </Compile>
-    <Compile Include="VSIXProject1004Package\VSIXProject1004Package.cs" />
-    <Compile Include="VSIXProject1004Package\VSIXProject1004Package1.cs">
+    <Compile Include="VSIXProject1004Package.cs" />
+    <Compile Include="VSIXProject1004Package1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>VSIXProject1004Package\VSIXProject1004Package.vsct</DependentUpon>
+      <DependentUpon>VSIXProject1004Package.vsct</DependentUpon>
     </Compile>
     <Compile Include="09aMiscOther\UserControls\WideWindowUC01\WideWindowUC01.xaml.cs">
       <DependentUpon>09aMiscOther\UserControls\WideWindowUC01\WideWindowUC01.xaml</DependentUpon>
@@ -110,10 +110,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\ToolWindow1Command.png" />
-    <VSCTCompile Include="VSIXProject1004Package\VSIXProject1004Package.vsct">
+    <VSCTCompile Include="VSIXProject1004Package.vsct">
       <Generator>VsctGenerator</Generator>
       <ResourceName>Menus.ctmenu</ResourceName>
-      <LastGenOutput>VSIXProject1004Package\VSIXProject1004Package1.cs</LastGenOutput>
+      <LastGenOutput>VSIXProject1004Package1.cs</LastGenOutput>
     </VSCTCompile>
   </ItemGroup>
   <ItemGroup>
