@@ -98,7 +98,7 @@ namespace UI_DEBUGER_net472
 
 		private async Task PascalImagesToScreen(PascalSearch pascalSearch, int cap)
 		{
-			WideWindowUC01 UsiMy = new();
+			WideWindowUC01 UsiMy = new WideWindowUC01();
 			PrintOutputWindow("cap = " + cap);
 			int i = 0;
 			for (int j = 0; j < cap; j++) //Proj Notes - This Loop is capped twice. This line contains the hard cap which should not exceed four
@@ -112,7 +112,7 @@ namespace UI_DEBUGER_net472
 				i++;
 				try
 				{
-					ImageWindowUC01 What = new();
+					ImageWindowUC01 What = new ImageWindowUC01();
 					What.Image01.Source = new BitmapImage(
 						new Uri(fullPath, UriKind.RelativeOrAbsolute));
 					UsiMy.ContainerHorizontal01.Children.Add(What);

@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace VSIXProject1004
+namespace UI_DEBUGER_net472
 {
 	/// <summary>
 	/// Interaction logic for ImageWindowUC01.xaml

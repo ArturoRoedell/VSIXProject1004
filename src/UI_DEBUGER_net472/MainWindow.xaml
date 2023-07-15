@@ -13,7 +13,7 @@
     <TextBox VerticalScrollBarVisibility="Auto" x:Name="CodeViewWindow" Background="#FF4AA7A7" HorizontalAlignment="Left"
              Height="207" TextWrapping="Wrap" Text="Code View Window" VerticalAlignment="Top" Width="699"
              Margin="45,49,0,0" />
-    <!--<Button Content="Test Image Window" HorizontalAlignment="Left" Margin="230,10,0,0" VerticalAlignment="Top" Width="164" Click="TestImageWindow_Button_Click" />-->
+    <Button Content="Test Image Window" HorizontalAlignment="Left" Margin="230,10,0,0" VerticalAlignment="Top" Width="164" Click="TestImageWindow_Button_Click" />
     <ScrollViewer x:Name= "outputTextBoxScroll" VerticalScrollBarVisibility="Auto" Margin="45,260,0,0" HorizontalAlignment ="Left" Height="120"
                   VerticalAlignment="Top" Width="975">
       <TextBox x:Name="outputTextBox" VerticalScrollBarVisibility="Auto" Height="120" Width="975" Text="Output Window" TextWrapping="Wrap" Background="#FFB1B1B1" RenderTransformOrigin="0.498,0.122"/>
