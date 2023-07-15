@@ -120,6 +120,10 @@
   <ItemGroup>
     <Analyzer Include="..\..\packages\AsyncFixer.1.6.0\analyzers\dotnet\cs\AsyncFixer.dll" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="a99_LibrariesTypesMiscFunctions\dlls\FileUtilitiesXT.LibraryV1.0.0.1.dll" />
+    <Content Include="a99_LibrariesTypesMiscFunctions\dlls\GScraper.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\PCRE.NET.0.20.0\build\PCRE.NET.targets" Condition="Exists('..\packages\PCRE.NET.0.20.0\build\PCRE.NET.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -52,31 +52,31 @@ namespace VSIXProject1004
 		
 		private async Task TestImageWindow()
 		{
-
-
 			string TestOnly  = VizFuncFileData.imageFileDirPath;
 			TestOnly  = VizFuncFileData.imageFileDirPath;
 			TestOnly = TestOnly;
-
-
 			string getAbsolute = Path.GetFullPath(TestOnly);
 			getAbsolute = Path.GetFullPath(TestOnly);
 			getAbsolute = getAbsolute;
-
-
 			string ActiveCodeFilePath = @"C:\Users\ARTURO 001\source\repos\001ScratchCode\001ReadCodeFile\TestCodeFile.cs";
-
 			FileUtilitiesXT fileUtilitiesXT = new FileUtilitiesXT();
-			string ActiveCode = fileUtilitiesXT.ReadFromFile(ActiveCodeFilePath);
+			//string ActiveCode = fileUtilitiesXT.ReadFromFile(ActiveCodeFilePath);
 
 
-			//string ActiveCode = FileContentsClass.ReadFileContents(ActiveCodeFilePath);
+			string ActiveCode = FileContentsClass.ReadFileContents(ActiveCodeFilePath);
+			
+			
+			
 			VizFuncFileData Mc = new VizFuncFileData(ActiveCode);
 			Mc.CodeFullFilePath = ActiveCodeFilePath;
 			PascalSearch.RefineResultOptions refineOpt = new PascalSearch.RefineResultOptions();
 			Mc._RefineResultForPascal = refineOpt;
+			
 			await Mc.AllocatePascalSearchListAndGetUrls();
-			//await MainMethods.SubMethods.DownloadAllImagesFourEach(Mc);
+			await MainMethods.SubMethods.DownloadAllImagesFourEach(Mc);
+			
+			
+			
 			int DEbug02 = Mc.MethodsAndClassesList.Count;
 			DEbug02 = DEbug02;
 			foreach ( var newPascalSearch in Mc.PascalSearchList)
@@ -85,7 +85,6 @@ namespace VSIXProject1004
 				Debug01 = Debug01;
 				PascalImagesToScreen(newPascalSearch, newPascalSearch.FinalWordCount);
 			}
-			
 			//MainMethods.SubMethods.SaveAllVizfuncDataToFile(Mc);
 		}
 

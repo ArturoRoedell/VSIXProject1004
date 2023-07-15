@@ -104,7 +104,7 @@ namespace BackEndSharedLibrary.VizFuncFileDataAndHelpers
 			{//BUG fix IS BELOW; I believe the interaction vsix and await
 				//BUG: The Code Fails at any await. Needs Fixing whole document
 				newPascalSearch = PascalSearch.asyncReturnPascalNameSearch(methodOrClass);
-				//PascalSearchWithUrls = await Task.Run(() => PascalSearch.LoopThorughWordsGetImages(newPascalSearch)); //.WaitAsync(TimeSpan.FromMinutes(10));
+				PascalSearchWithUrls = await Task.Run(() => PascalSearch.LoopThorughWordsGetImages(newPascalSearch)); //.WaitAsync(TimeSpan.FromMinutes(10));
 				TransferPascal.Add(PascalSearchWithUrls);
 				printl("Method_Or_Class_Name" + methodOrClass);
 			}
