@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VizFuncTypes", "src\VizFunc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackEndSharedLibrary", "src\BackEndSharedLibrary\BackEndSharedLibrary.csproj", "{4EADF7D9-82C0-427D-96D0-D09BB5A6DE7B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VizFuncMajorTasks", "src\VizFuncMajorTasks\VizFuncMajorTasks.csproj", "{8C4E6002-638A-4D3C-95B5-19AB11C99830}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,18 @@ Global
 		{4EADF7D9-82C0-427D-96D0-D09BB5A6DE7B}.Release|arm64.Build.0 = Release|Any CPU
 		{4EADF7D9-82C0-427D-96D0-D09BB5A6DE7B}.Release|x86.ActiveCfg = Release|Any CPU
 		{4EADF7D9-82C0-427D-96D0-D09BB5A6DE7B}.Release|x86.Build.0 = Release|Any CPU
+		{8C4E6002-638A-4D3C-95B5-19AB11C99830}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C4E6002-638A-4D3C-95B5-19AB11C99830}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C4E6002-638A-4D3C-95B5-19AB11C99830}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{8C4E6002-638A-4D3C-95B5-19AB11C99830}.Debug|arm64.Build.0 = Debug|Any CPU
+		{8C4E6002-638A-4D3C-95B5-19AB11C99830}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8C4E6002-638A-4D3C-95B5-19AB11C99830}.Debug|x86.Build.0 = Debug|Any CPU
+		{8C4E6002-638A-4D3C-95B5-19AB11C99830}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C4E6002-638A-4D3C-95B5-19AB11C99830}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C4E6002-638A-4D3C-95B5-19AB11C99830}.Release|arm64.ActiveCfg = Release|Any CPU
+		{8C4E6002-638A-4D3C-95B5-19AB11C99830}.Release|arm64.Build.0 = Release|Any CPU
+		{8C4E6002-638A-4D3C-95B5-19AB11C99830}.Release|x86.ActiveCfg = Release|Any CPU
+		{8C4E6002-638A-4D3C-95B5-19AB11C99830}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
