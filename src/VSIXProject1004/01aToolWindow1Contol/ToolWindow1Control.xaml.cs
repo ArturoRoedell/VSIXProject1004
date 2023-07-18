@@ -52,7 +52,7 @@ namespace VSIXProject1004
 		private async Task TestImageWindow()
 		{
 			string jsonVizDataSimpleJsonPath = @"C:\Users\ARTURO 001\source\repos\VsixVisualizeMethodsAndClasses\Viz_func_Images\Test01A.json";
-			VizFuncDataSimple Load_VFDS = new VizFuncDataSimple();
+			VizFuncDataSimple savedVizFunc = new VizFuncDataSimple();
 			#region readfile
 			string jsonFileVisFuncData;
 			if (!(File.Exists(jsonVizDataSimpleJsonPath)))
@@ -85,7 +85,8 @@ namespace VSIXProject1004
 			{
 			}
 			#endregion
-			Load_VFDS = vizFuncFileDataList[0];
+			savedVizFunc = vizFuncFileDataList[0];
+			
 			#region Debug_Loaded_File_deserialized data_Debug_only
 			Console.WriteLine("##############################");
 			Console.WriteLine("##############################");
@@ -95,18 +96,18 @@ namespace VSIXProject1004
 			Console.WriteLine("##############################");
 			Console.WriteLine("START: From File VizFuncDataSimple");
 			Console.WriteLine("##############################");
-			Console.WriteLine(Load_VFDS.CodeFullFilePath);
-			Console.WriteLine(Load_VFDS.FileNameCodeFile);
-			foreach (var element in Load_VFDS.LineNumberPascalNamePairList)
+			Console.WriteLine(savedVizFunc.CodeFullFilePath);
+			Console.WriteLine(savedVizFunc.FileNameCodeFile);
+			foreach (var element in savedVizFunc.LineNumberPascalNamePairList)
 			{
 				Console.WriteLine("LineNumber : " + element.lineNumber);
 				Console.WriteLine("PascalNames : " + element.pascalNames);
 			}
-			foreach (var element in Load_VFDS.MethodsAndClassesList)
+			foreach (var element in savedVizFunc.MethodsAndClassesList)
 			{
 				Console.WriteLine("MethodsAndClasses : " + element);
 			}
-			foreach (var element in Load_VFDS.MethodsList)
+			foreach (var element in savedVizFunc.MethodsList)
 			{
 				Console.WriteLine("Methods : " + element);
 			}
@@ -114,8 +115,8 @@ namespace VSIXProject1004
 			Console.WriteLine("-----------------==================---------------");
 			Console.WriteLine("-----------------==================---------------");
 			Console.WriteLine();
-			Console.WriteLine("Pascal List total" + Load_VFDS.PascalSearchDataSimpleList.Count);
-			foreach (var pascal in Load_VFDS.PascalSearchDataSimpleList)
+			Console.WriteLine("Pascal List total" + savedVizFunc.PascalSearchDataSimpleList.Count);
+			foreach (var pascal in savedVizFunc.PascalSearchDataSimpleList)
 			{
 				Console.WriteLine("------------------------------------??????????????@@@@????????????");
 				Console.WriteLine("Name: "+ pascal.MethodClassName);
@@ -143,8 +144,43 @@ namespace VSIXProject1004
 			Console.WriteLine();
 			#endregion
 			
-			//
+			#region DrawEveryImageInFile
+			foreach (var pascal in savedVizFunc.PascalSearchDataSimpleList)
+			{
+				PascalImagesToScreen(pascal.MultiWordSearchTerms, pascal.FinalWordCount);
+			}
+			#endregion
+
+			#region DrawwImagesInfileSequentialByLineNuber
 			
+			foreach (var LineNumberPascalName in savedVizFunc.LineNumberPascalNamePairList)
+			{
+				//string pascalPath = BackEndMethods.imageFileDirPath + @"\001_URLs\" + LineNumberPascalName.pascalNames + "_01.json";
+				
+				int pascalIndex = 0;
+				foreach (var pascalNameMC in savedVizFunc.MethodsAndClassesList)
+				{
+					if ( pascalNameMC == LineNumberPascalName.pascalNames)
+					{
+						PascalImagesToScreen
+							(
+								savedVizFunc.PascalSearchDataSimpleList[pascalIndex].MultiWordSearchTerms,
+								savedVizFunc.PascalSearchDataSimpleList[pascalIndex].FinalWordCount
+							);
+					}//FIX: WORK IN PROGRESS!!! needs line number spacing three lines eaquals one box image
+					//FIX ....therefore add spaces with one third size empty spacers usre control object;
+					pascalIndex++;
+				}
+				
+				
+				
+				
+				//savedVizFunc.MethodsAndClassesList;
+				//BackEndMethods.imageFileDirPath
+				//PascalImagesToScreen( ,);
+			}
+			#endregion
+
 		}
 
 		private void PascalImagesToScreen(string[] multiWordSearchTerms, int cap)
