@@ -150,8 +150,6 @@ namespace VSIXProject1004
 				PascalImagesToScreen(pascal.MultiWordSearchTerms, pascal.FinalWordCount);
 			}
 			#endregion
-
-			return;//DEBUG ONLY
 			
 			#region DrawwImagesInfileSequentialByLineNuber
 			
