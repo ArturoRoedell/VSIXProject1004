@@ -151,6 +151,8 @@ namespace VSIXProject1004
 			}
 			#endregion
 
+			return;//DEBUG ONLY
+			
 			#region DrawwImagesInfileSequentialByLineNuber
 			
 			foreach (var LineNumberPascalName in savedVizFunc.LineNumberPascalNamePairList)
