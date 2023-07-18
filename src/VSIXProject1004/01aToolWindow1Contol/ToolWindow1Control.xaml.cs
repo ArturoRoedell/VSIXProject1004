@@ -152,32 +152,22 @@ namespace VSIXProject1004
 			#endregion*/
 			
 			#region DrawwImagesInfileSequentialByLineNuber
-			
+
+			int LineMethodIndex = 0;
 			foreach (var LineNumberPascalName in savedVizFunc.LineNumberPascalNamePairList)
 			{
-				//string pascalPath = BackEndMethods.imageFileDirPath + @"\001_URLs\" + LineNumberPascalName.pascalNames + "_01.json";
-				
 				int pascalIndex = 0;
-				foreach (var pascalNameMC in savedVizFunc.MethodsAndClassesList)
+				foreach (var pascalNameMC in savedVizFunc.PascalSearchDataSimpleList)
 				{
-					if ( pascalNameMC == LineNumberPascalName.pascalNames)
+					if ( pascalNameMC.MethodClassName == LineNumberPascalName.pascalNames)
 					{
-						PascalImagesToScreen
-							(
-								savedVizFunc.PascalSearchDataSimpleList[pascalIndex].MultiWordSearchTerms,
-								savedVizFunc.PascalSearchDataSimpleList[pascalIndex].FinalWordCount
-							);
+						PascalImagesToScreen(pascalNameMC.MultiWordSearchTerms, pascalNameMC.MultiWordSearchTerms.Length);
+
 					}//FIX: WORK IN PROGRESS!!! needs line number spacing three lines eaquals one box image
 					//FIX ....therefore add spaces with one third size empty spacers usre control object;
 					pascalIndex++;
 				}
-				
-				
-				
-				
-				//savedVizFunc.MethodsAndClassesList;
-				//BackEndMethods.imageFileDirPath
-				//PascalImagesToScreen( ,);
+				Console.WriteLine("=================================================");
 			}
 			#endregion
 
