@@ -14,8 +14,9 @@ namespace DEBUGER_472
 		public static async Task Main(string[] args)
 		{
 			Console.WriteLine("START: DEBUGER472");
+			MatchSingleWordsToLinenumber();
 			//await TestMajorMethods();
-			await TestOnlyLoadAndDeserialize();
+			//await TestOnlyLoadAndDeserialize();
 			Console.WriteLine("END: DEBUGER472");
 		}
 
@@ -263,6 +264,100 @@ namespace DEBUGER_472
 			Console.WriteLine();
 			#endregion
 			Console.WriteLine("DEbuger 472 end");
+		}
+
+		public static void MatchSingleWordsToLinenumber()
+		{
+			
+			string jsonVizDataSimpleJsonPath = @"C:\Users\ARTURO 001\source\repos\VsixVisualizeMethodsAndClasses\Viz_func_Images\Test01A.json";
+			VizFuncDataSimple savedVizFunc = new VizFuncDataSimple();
+			
+			#region readfile
+			string jsonFileVisFuncData;
+			if (!(File.Exists(jsonVizDataSimpleJsonPath)))
+			{
+				jsonFileVisFuncData = "";
+				Console.WriteLine("File does not exist");
+			}
+			else
+			{
+				jsonFileVisFuncData = "";
+				var fileInfo = new FileInfo(jsonVizDataSimpleJsonPath);
+				if (fileInfo.Length == 0)
+				{
+					Console.WriteLine("Error Empty File");
+				}
+				else
+				{
+					jsonFileVisFuncData = File.ReadAllText(jsonVizDataSimpleJsonPath);
+				}
+			}
+			#endregion
+			
+			List<VizFuncDataSimple> vizFuncFileDataList = new List<VizFuncDataSimple>();
+			
+			#region Deserialize
+			List<VizFuncDataSimple> FileDataList = new List<VizFuncDataSimple>();
+			try
+			{
+				vizFuncFileDataList = JsonConvert.DeserializeObject<List<VizFuncDataSimple>>(jsonFileVisFuncData);
+			}
+			catch
+			{
+			}
+			#endregion
+			
+			savedVizFunc = vizFuncFileDataList[0];
+			
+			#region DrawwImagesInfileSequentialByLineNuber
+
+			int LineMethodIndex = 0;
+			foreach (var LineNumberPascalName in savedVizFunc.LineNumberPascalNamePairList)
+			{
+				
+				
+				/*Console.WriteLine("Pair Name:" + LineNumberPascalName.pascalNames);
+				Console.WriteLine
+				(
+					"Total Pascal List: " +
+					savedVizFunc.PascalSearchDataSimpleList.Count
+				);*/
+				
+				int pascalIndex = 0;
+				foreach (var pascalNameMC in savedVizFunc.PascalSearchDataSimpleList)
+				{
+					if ( pascalNameMC.MethodClassName == LineNumberPascalName.pascalNames)
+					{
+						Console.WriteLine("Line: #" + LineNumberPascalName.lineNumber);
+						Console.WriteLine(LineNumberPascalName.pascalNames);
+						foreach (var ImageWords in pascalNameMC.MultiWordSearchTerms)
+						{
+							Console.Write(" + " + ImageWords);
+						}
+						
+						Console.WriteLine("\n----------------------------------------");
+						/*Console.WriteLine
+							(
+								
+								savedVizFunc.PascalSearchDataSimpleList[pascalIndex].MultiWordSearchTerms.Length
+							);
+						
+						Console.WriteLine
+							(
+								savedVizFunc.PascalSearchDataSimpleList[pascalIndex].FinalWordCount
+							);*/
+						/*PascalImagesToScreen
+						(
+							savedVizFunc.PascalSearchDataSimpleList[pascalIndex].MultiWordSearchTerms,
+							savedVizFunc.PascalSearchDataSimpleList[pascalIndex].FinalWordCount
+						);*/
+					}//FIX: WORK IN PROGRESS!!! needs line number spacing three lines eaquals one box image
+					//FIX ....therefore add spaces with one third size empty spacers usre control object;
+					pascalIndex++;
+				}
+				Console.WriteLine("=================================================");
+			}
+			#endregion
 		}
 		
 		#region LegacyCode_TEMP_Archive_Then Earse

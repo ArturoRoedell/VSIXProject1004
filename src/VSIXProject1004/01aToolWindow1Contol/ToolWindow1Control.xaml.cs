@@ -144,12 +144,12 @@ namespace VSIXProject1004
 			Console.WriteLine();
 			#endregion
 			
-			#region DrawEveryImageInFile
+			/*#region DrawEveryImageInFile
 			foreach (var pascal in savedVizFunc.PascalSearchDataSimpleList)
 			{
 				PascalImagesToScreen(pascal.MultiWordSearchTerms, pascal.FinalWordCount);
 			}
-			#endregion
+			#endregion*/
 			
 			#region DrawwImagesInfileSequentialByLineNuber
 			
