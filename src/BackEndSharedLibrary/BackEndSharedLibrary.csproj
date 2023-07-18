@@ -23,6 +23,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\VizFuncTypes\VizFuncTypes.csproj" />
+      <ProjectReference Include="..\VizFuncTypes\VizFuncTypes.csproj" />
     </ItemGroup>
 
 </Project>
