@@ -206,7 +206,6 @@ namespace DEBUGER_472
 			}
 			#endregion
 			Load_VFDS = vizFuncFileDataList[0];
-
 			#region Debug_Loaded_File_deserialized data_Debug_only
 			Console.WriteLine("##############################");
 			Console.WriteLine("##############################");
