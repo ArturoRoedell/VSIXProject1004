@@ -1,0 +1,400 @@
+using System.Collections;
+using static BackEndSharedLibrary.OtherMiscFuncs.BaseFuncs.PrintClass;
+using BackEndSharedLibrary.VizFuncFileDataAndHelpers;
+using BackEndSharedLibrary.OtherMiscFuncs.BaseFuncs;
+//See Below: The Libray actually needs thid even if the precompiler says it doesnt
+using System.IO; //Leave This here Even if it is greyed out
+using System.Drawing;
+using System.Drawing.Imaging;
+using BackEndSharedLibrary.VizFuncFileDataAndHelpers.HelperMethods;
+
+namespace BackEndSharedLibrary.DebugTools;
+
+public static class BridgeToDebuger
+{
+	public static async Task Start()
+	{
+		string activeCodeFIlePath = @"C:\Users\ARTURO 001\source\repos\001ScratchCode\001ReadCodeFile\TestCodeFile.cs";
+		
+		//ChangeImageTypeThenDownload();
+		//MixMethods.getfromFileToimagePrintFilepath();
+		//await DebugTests.MethodsAndClassesTest();
+		//await DebugTests.PascalSplitTest();
+		//await DebugTests.GetUrlsTest();
+		//await DebugTests.DownloadTest();//Works Tested
+		//await DebugTests.FindMethodsSplitPascalStringGetUrls();
+		//---------------------------------------------------------------
+		//await DebugTests.FindMethodsSplitPascalStringGetUrlsThenDownload();
+		await MainMethods.ReadCodefileDownloadSaveVizFuncData(activeCodeFIlePath);
+		//DebugTests.LoadDataFiles();
+		//await DebugTests.LoadDataFilesThenDownloadImages();
+		//DebugTests.TestPairList();
+	}
+
+	public static async Task ChangeImageTypeThenDownload()
+	{
+		string ImageUrl =  @"https://upload.wikimedia.org/wikipedia/commons/1/18/Batman_logo.jpg";
+		string path01 = @"C:\Users\ARTURO 001\source\repos\VsixVisualizeMethodsAndClasses\Viz_func_Images";
+		string fileName = Path.Combine(path01, "test.png");
+		//Proj Notes: Load Image into Ram
+		Image image = await LoadUrlImageToStreamClass.LoadUrlImageToStream(ImageUrl);
+		image.Save(fileName, ImageFormat.Png);
+		image.Dispose();
+	}
+	
+	class DebugTests
+	{
+		/*public static async Task ReadCodefileDownloadSaveVizFuncData(string activeCodeFilePath) //Fix put this method where it belongs
+		{
+			string activeCode = FileContentsClass.ReadFileContents(activeCodeFilePath);
+			VizFuncFileData Mc = new(activeCode);
+			
+			
+			VizFuncFileData.PascalSearch.RefineResultOptions refineOpt = new VizFuncFileData.PascalSearch.RefineResultOptions();
+			refineOpt.CartoonImage = false;
+
+			Mc._RefineResultForPascal = refineOpt;
+			
+			await Mc.AllocatePascalSearchListAndGetUrls();
+			#region Debug ONLY Show_urls
+			foreach (var newPascalSearch in Mc.PascalSearchList)
+			{
+				for (int i = 0; i < newPascalSearch.FinalWordCount; i++)
+				{
+					printl(newPascalSearch.ImageResultsUrl[i,0]);
+				}
+			}
+			#endregion// For Testing Porpuses only
+			await DownloadAllImages(Mc);
+			SaveAllVizfuncDataToFile(Mc);
+		}*/
+
+		/*public static void SaveAllVizfuncDataToFile(VizFuncFileData Mc)
+		{
+			List<VizFuncFileData> vizFuncFileDataList = new List<VizFuncFileData>();
+			vizFuncFileDataList.Add(Mc);
+			foreach (var pascal in Mc.PascalSearchList)
+			{
+				foreach (var element in pascal.MultiWordSearchTerms)
+				{
+					printl("This is New: " + element);
+				}
+			}
+			string fullFilePath = imageFileDirPath + @"\Test01A.json";
+			SerializeSaveFileClass.SerializeSaveFile<VizFuncFileData>(vizFuncFileDataList,fullFilePath);
+		}*/
+
+		/*public static async Task DownloadAllImages(VizFuncFileData Mc)
+		{
+			foreach (var newPascalSearch in Mc.PascalSearchList)
+			{
+				for (int i = 0; i < newPascalSearch.FinalWordCount; i++)
+				{
+					await VizFuncFileData.DownloadSingleImage(newPascalSearch.ImageResultsUrl[i, 0]
+						, newPascalSearch.MultiWordSearchTerms[i]);
+					for (int j = 0; j < 4; j++)
+					{
+						string name = newPascalSearch.MultiWordSearchTerms[i];
+						FileUtilitiesXT fileUtilitiesXt = new FileUtilitiesXT();
+						string path = imageFileDirPath + @"\001_URLs\" + name + "_01.json";
+						string urlslistJson =  fileUtilitiesXt.ReadFromFile(path);
+						List<string[]> urlListArrLST = new List<string[]>();
+						urlListArrLST = fileUtilitiesXt.DeserializeJsonStringReturnList<string[]>(urlslistJson);
+						string[] urlListArr;// = new string[100];
+						urlListArr = urlListArrLST[0];
+						await VizFuncFileData.DownloadSingleImage(urlListArr[j]
+							,newPascalSearch.MultiWordSearchTerms[i] ,j);
+					}
+				}
+			}
+		}//Fix put this method where it belongs*/
+
+		public static void LoadDataFiles()
+		{
+			FileUtilitiesXT fileUtilitiesXT = new FileUtilitiesXT();
+			string readFileTest01A = fileUtilitiesXT.ReadFromFile(imageFileDirPath + @"\Test01A.json");
+			printl(readFileTest01A);
+			List<VizFuncFileData> vizFuncFileDataList = new List<VizFuncFileData>();
+			vizFuncFileDataList = fileUtilitiesXT.DeserializeJsonStringReturnList<VizFuncFileData>(readFileTest01A);
+			VizFuncFileData Mc = vizFuncFileDataList[0];
+			printl("\n#### Methods And Classes: ");
+			foreach (var pascal in Mc.PascalSearchList)
+			{
+				printl("FinalWordCount: " + pascal.FinalWordCount);
+			}
+			
+			foreach (var element in Mc.MethodsAndClassesList)
+			{
+				printl("Classes_and_Methods: " + element);
+			}
+			
+			string jasonString = fileUtilitiesXT.SerializeJsonDataReturnString(vizFuncFileDataList);
+			
+			printl("===========================================");
+			printl("Second String Json");
+			printl(jasonString);
+			
+			int[] lineNumbers = new int[Mc.LineNumberKeyword.Count];
+			string[] namesPascal = new string[Mc.LineNumberKeyword.Count];
+			List<LineNumberPascalNamePair> numberPascalNamesList = new List<LineNumberPascalNamePair>();
+			int i = 0;
+			foreach (DictionaryEntry element in Mc.LineNumberKeyword)
+			{
+				//printl($"Key: {element.Key.GetType()}, Value: {element.Value}");
+				try
+				{
+					int trydis = Convert.ToInt32(element.Key);
+					printl(trydis);
+					lineNumbers[i] = trydis;
+				}
+				catch
+				{
+				}
+				namesPascal[i] = element.Value.ToString();
+				LineNumberPascalNamePair numberPascalNamesListTransfer = new LineNumberPascalNamePair();
+				numberPascalNamesListTransfer.lineNumber01 = Convert.ToInt32(element.Key);
+				numberPascalNamesListTransfer.pascalNames01 = element.Value.ToString();
+				numberPascalNamesList.Add(numberPascalNamesListTransfer);
+			}
+			List<LineNumberPascalNamePair> sortedListyeah = numberPascalNamesList.OrderBy(x=>x.lineNumber01).ToList();
+			printl("===================");
+			foreach (var elm in sortedListyeah)
+			{
+				printl(elm.lineNumber01);
+				printl(elm.pascalNames01);
+			}
+		}
+		
+		public static async Task LoadDataFilesThenDownloadImages()
+		{
+			
+			//Work Here
+			//Work Here
+			//Work Here
+			//Work Here
+			//Work Here
+			//Work Here
+			
+			
+			FileUtilitiesXT fileUtilitiesXT = new FileUtilitiesXT();
+			string readFileTest01A = fileUtilitiesXT.ReadFromFile(imageFileDirPath + @"\Test01A.json");
+			List<VizFuncFileData> vizFuncFileDataList = new List<VizFuncFileData>();
+			vizFuncFileDataList = fileUtilitiesXT.DeserializeJsonStringReturnList<VizFuncFileData>(readFileTest01A);
+			VizFuncFileData Mc = vizFuncFileDataList[0];
+			
+			//Should Download all images
+			foreach (var newPascalSearch in Mc.PascalSearchList)
+			{
+				for (int i = 0; i < newPascalSearch.FinalWordCount; i++)
+				{
+					await VizFuncFileData.DownloadSingleImage(newPascalSearch.ImageResultsUrl[i,0]
+						, newPascalSearch.MultiWordSearchTerms[i]);
+				}
+			}
+		}
+		
+		public static void TestPairList()
+		{
+			
+			//string ActiveCode = FileContentsClass.ReadFileContents(@"C:\Users\ARTURO 001\source\repos\001ScratchCode\001ReadCodeFile\TestCodeFile.cs");
+			string ActiveCode = FileContentsClass.ReadFileContents(@"C:\Users\ARTURO 001\source\repos\001ScratchCode\001ReadCodeFile\TestCode0003.cs");
+			VizFuncFileData Mc = new VizFuncFileData(ActiveCode);
+			printl("\n#### Methods And Classes: ");
+
+			foreach (var element in Mc.LineNumberPascalNamePairList)
+			{
+				printl("Classes_and_Methods: " + element.lineNumber);
+				printl("Classes_and_Methods: " + element.pascalNames);
+			}
+		}
+		
+		public static KeyValuePair<int, string>[] ConvertHashtableToKeyValuePair(Hashtable hashtable)
+		{
+			KeyValuePair<int, string>[] result = new KeyValuePair<int, string>[hashtable.Count];
+			int index = 0;
+
+			foreach (DictionaryEntry entry in hashtable)
+			{
+				int key = (int)entry.Key;
+				string value = (string)entry.Value;
+				result[index] = new KeyValuePair<int, string>(key, value);
+				index++;
+			}
+
+			return result;
+		}
+		
+		#region SubMethods
+		public static async Task MethodsAndClassesTest()
+		{
+			string ActiveCode = FileContentsClass.ReadFileContents(@"C:\Users\ARTURO 001\source\repos\001ScratchCode\001ReadCodeFile\TestCodeFile.cs");
+			VizFuncFileData Mc = new VizFuncFileData(ActiveCode);
+			
+			printl("\n#### Methods And Classes: ");
+			foreach (var element in Mc.MethodsAndClassesList)
+			{
+				printl("Classes_and_Methods: " + element);
+			}
+		}
+		
+		public static async Task PascalSplitTest()
+		{
+			string pascalString = "StartrekSpRFockSpaWIPceUniverseREI_Place";
+			VizFuncFileData.PascalSearch newPascalSearch = await VizFuncFileData.PascalSearch.asyncReturnPascalNameSearch(pascalString);
+			for (int i = 0; i < newPascalSearch.MultiWordSearchTerms.Length; i++)
+			{
+				printl(newPascalSearch.MultiWordSearchTerms[i]);
+				printl(newPascalSearch.searchWordRefinedSearch[i]);
+			}
+			printl("DEBUGER MAIN: ");
+			printl(newPascalSearch.MethodClassName);
+			printl(newPascalSearch.SearchTermComplete);
+			printl("This is from Debug LASt line");
+		}
+		
+		public static async Task GetUrlsTest()
+		{
+			string pascalString = "StartrekSpockSpaceUniversePlace";
+			VizFuncFileData.PascalSearch newPascalSearch = await VizFuncFileData.PascalSearch.asyncReturnPascalNameSearch(pascalString);
+			newPascalSearch = await VizFuncFileData.PascalSearch.LoopThorughWordsGetImages(newPascalSearch);
+			for (int i = 0; i < newPascalSearch.FinalWordCount; i++)
+			{
+				printl("url: "+ newPascalSearch.ImageResultsUrl[i,0] + "\n Search Term:" + newPascalSearch.MultiWordSearchTerms[i]+ "\n");
+			}
+			printl("GetUrls ouside");
+		}
+		
+		public static async Task DownloadTest()
+		{
+			string pascalString = "StartrekSpockSpaceUniversePlace";
+			VizFuncFileData.PascalSearch newPascalSearch = await VizFuncFileData.PascalSearch.asyncReturnPascalNameSearch(pascalString);
+			newPascalSearch = await VizFuncFileData.PascalSearch.LoopThorughWordsGetImages(newPascalSearch);
+			for (int i = 0; i < newPascalSearch.FinalWordCount; i++)
+			{
+				await VizFuncFileData.DownloadSingleImage(newPascalSearch.ImageResultsUrl[i,0]
+					, newPascalSearch.MultiWordSearchTerms[i]);
+			}
+			printl("Download ouside");
+			printl("Does it crash?");
+		}
+		#endregion
+		
+		public static async Task FindMethodsSplitPascalStringGetUrls()
+		{
+			string ActiveCode = FileContentsClass.ReadFileContents(@"C:\Users\ARTURO 001\source\repos\001ScratchCode\001ReadCodeFile\TestCodeFile.cs");
+			VizFuncFileData Mc = new(ActiveCode);
+			await Mc.AllocatePascalSearchListAndGetUrls();
+			
+			printl("After New Method 001");
+			foreach (VizFuncFileData.PascalSearch elementA in Mc.PascalSearchList)
+			{
+				foreach (string elemntB in elementA.searchWordRefinedSearch)
+				{
+					printl("All_Refined words" + elemntB);
+				}
+			}
+			ShowResults2(Mc);
+			static void ShowResults2(VizFuncFileData Mc)
+			{
+				foreach (var pascal in Mc.PascalSearchList)
+				{
+					printl("FINAL Method_Or_Class_Name" + pascal.MethodClassName);
+					for (int i = 0; i < pascal.FinalWordCount; i++)
+					{
+						printl("FINAL url: " + pascal.ImageResultsUrl[i, 0] + "\nFINAL Search Term:" + pascal.MultiWordSearchTerms[i] + "\n");
+					}
+				}
+			}
+
+			for (int i = 0; i < 2; i++)
+			{
+				for (int j = 0; j < 2; j++)
+				{
+					printl("From ImageResultsUrlOneD");
+					printl(Mc.PascalSearchList[i].ImageResultsUrlOneD[j]);
+				}
+			}
+		}
+		
+		public static async Task FindMethodsSplitPascalStringGetUrlsThenDownload()
+		{
+			string ActiveCode = FileContentsClass.ReadFileContents(@"C:\Users\ARTURO 001\source\repos\001ScratchCode\001ReadCodeFile\TestCodeFile.cs");
+			VizFuncFileData Mc = new(ActiveCode);
+			string pascalString;
+			VizFuncFileData.PascalSearch newPascalSearch;
+			// VizFuncFileData.PascalSearch.RefineResultOptions refineOpt = new VizFuncFileData.PascalSearch.RefineResultOptions();
+			// refineOpt.CartoonImage = false;
+			// refineOpt.TestDebugStr = @"$%#_How_bout_This$%#$#%^ ";
+
+			VizFuncFileData.PascalSearch PascalSearchWithUrls = new VizFuncFileData.PascalSearch();
+			List<VizFuncFileData.PascalSearch> TransferPascal = new();
+			foreach (var methodOrClass in Mc.MethodsAndClassesList)
+			{
+				newPascalSearch = await VizFuncFileData.PascalSearch.asyncReturnPascalNameSearch(methodOrClass);
+				PascalSearchWithUrls = await Task.Run(() => VizFuncFileData.PascalSearch.LoopThorughWordsGetImages(newPascalSearch)) ;//.WaitAsync(TimeSpan.FromMinutes(10));
+				TransferPascal.Add(PascalSearchWithUrls);
+				printl("Method_Or_Class_Name" + methodOrClass);
+			}
+			Mc.PascalSearchList = TransferPascal;
+			ShowResults2(Mc);
+			foreach (VizFuncFileData.PascalSearch nps in Mc.PascalSearchList)
+			{
+				printl("Dwonloading: " + nps.MethodClassName);
+				for (int i = 0; i < nps.FinalWordCount; i++)
+				{
+					printl("Download SingleImage: " + nps.MultiWordSearchTerms[i]);
+					await VizFuncFileData.DownloadSingleImage(nps.ImageResultsUrl[i,0]
+						, nps.MultiWordSearchTerms[i]);
+				}
+			}
+			static void ShowResults2(VizFuncFileData Mc)
+			{
+				foreach (var pascal in Mc.PascalSearchList)
+				{
+					printl("FINAL Method_Or_Class_Name" + pascal.MethodClassName);
+					for (int i = 0; i < pascal.FinalWordCount; i++)
+					{
+						printl("FINAL url: " + pascal.ImageResultsUrl[i, 0] + "\nFINAL Search Term:" + pascal.MultiWordSearchTerms[i] + "\n");
+					}
+				}
+			}
+		}
+	}
+
+	public struct LineNumberPascalNamePair
+	{
+		public int lineNumber01 { get; set; }
+		public string pascalNames01 { get; set; }
+	}
+	
+	class MixMethods
+	{
+		public static void getfromFileToimagePrintFilepath()
+		{
+			FileUtilitiesXT fileUtilitiesXT = new FileUtilitiesXT();
+			string readFileTest01A = fileUtilitiesXT.ReadFromFile(imageFileDirPath + @"\Test01A.json");
+			List<VizFuncFileData> vizFuncFileDataList = new List<VizFuncFileData>();
+			vizFuncFileDataList = fileUtilitiesXT.DeserializeJsonStringReturnList<VizFuncFileData>(readFileTest01A);
+			VizFuncFileData Mc = vizFuncFileDataList[0];
+			printl("\n#### Methods And Classes: ");
+
+			int TotalWordsImages = 1;
+			foreach (VizFuncFileData.PascalSearch pascalSearch in Mc.PascalSearchList)
+			{
+				printl(pascalSearch.MethodClassName);
+				foreach (string searchTerm in pascalSearch.MultiWordSearchTerms)
+				{
+					printl(searchTerm);
+					string ImagePath = VizFuncFileData.ImageFileFullPath(searchTerm);
+					string fullPath = ReturnFullPathClass.ReturnFullPath(ImagePath);
+					printl(fullPath);
+					bool fileExists = File.Exists(fullPath);
+					printl("Does THis File Exist? " + fileExists);
+					printl("Total: " + TotalWordsImages);
+					printl("=======================================");
+					TotalWordsImages++;
+				}
+			}
+		}
+	}
+}

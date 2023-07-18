@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="ArturoRoedell.Util.FileUtilitiesXT" Version="1.0.0" />
+        <PackageReference Include="Downloader" Version="3.0.6" />
+        <PackageReference Include="PCRE.NET" Version="0.20.0" />
+        <PackageReference Include="System.Drawing.Common" Version="8.0.0-preview.5.23280.5" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+        <Reference Include="GScraper">
+            <HintPath>MiscFunctionsAndLibraries\dlls\GScraper.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\VizFuncTypes\VizFuncTypes.csproj" />
+    </ItemGroup>
+
+</Project>
