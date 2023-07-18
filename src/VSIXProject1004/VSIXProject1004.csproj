@@ -48,6 +48,7 @@
     <Compile Include="09aMiscOther\UserControls\ImageWindowUC01\ImageWindowUC01.xaml.cs">
       <DependentUpon>09aMiscOther\UserControls\ImageWindowUC01\ImageWindowUC01.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BackEndMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="01aToolWindow1Contol\Command\ToolWindow1.cs" />
     <Compile Include="01aToolWindow1Contol\Command\ToolWindow1Command.cs" />
