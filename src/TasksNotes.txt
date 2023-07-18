@@ -9,6 +9,9 @@
 
 ## MORE PROJECT NOTES:
 	NOTES - Will Design For four to three max image, depending on setting
+	    <Reference Include="PCRE.NET">
+          <HintPath>a99_LibrariesTypesMiscFunctions\dlls\PCRE\PCRE.NET.dll</HintPath>
+        </Reference>
 	
 ## ONGOING:
     MAINTASK: Start implementing TDD: start writing automated testing to make debuging quicker
