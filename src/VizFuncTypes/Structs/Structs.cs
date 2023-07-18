@@ -1,6 +1,5 @@
-﻿using GScraper.Google;
-
-namespace BackEndSharedLibrary.Types
+﻿
+namespace VizFuncTypes
 {
 	public struct LineNumberPascalNamePair
 	{

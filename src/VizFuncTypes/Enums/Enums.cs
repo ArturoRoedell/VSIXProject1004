@@ -1,4 +1,4 @@
-﻿namespace BackEndSharedLibrary.Types
+﻿namespace VizFuncTypes
 {
 	public enum ImageType // Proj Notes: Easiest ways to mitigate small image files either png or jpeg
 	{
@@ -21,4 +21,3 @@
 		TwoWordsPlusEntireSearch
 	}
 }
-

@@ -118,9 +118,9 @@
     </VSCTCompile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BackendSharedLibrary\BackendSharedLibrary.csproj">
-      <Project>{1fe12e71-0a83-4c0d-82e7-105f909df216}</Project>
-      <Name>BackendSharedLibrary</Name>
+    <ProjectReference Include="..\VizFuncTypes\VizFuncTypes.csproj">
+      <Project>{b8189276-63c3-4edf-9248-246cfa730f04}</Project>
+      <Name>VizFuncTypes</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

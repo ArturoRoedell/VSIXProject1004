@@ -1,8 +1,6 @@
 ﻿using System.Threading.Tasks;
-using BackEndSharedLibrary;
-using BackEndSharedLibrary.OtherMiscFuncs.BaseFuncs;
-using BackEndSharedLibrary.VizFuncFileDataAndHelpers;
-using static BackEndSharedLibrary.OtherMiscFuncs.BaseFuncs.PrintClass;
+using VizFuncTypes;
+using System;
 
 namespace DEBUGER_472
 {
@@ -10,7 +8,7 @@ namespace DEBUGER_472
 	{
 		public static async Task Main(string[] args)
 		{
-			printl("start");
+			Console.WriteLine("start");
 			
 			
 			string ActiveCodeFilePath = @"C:\Users\ARTURO 001\source\repos\001ScratchCode\001ReadCodeFile\TestCodeFile.cs";
@@ -22,14 +20,14 @@ namespace DEBUGER_472
 
 			foreach (var newPascalSearch in Mc.PascalSearchList)
 			{
-				printl(newPascalSearch.SearchTermComplete);
-				printl(newPascalSearch.FinalWordCount);
-				printl(newPascalSearch.MethodClassName);
+				Console.WriteLine(newPascalSearch.SearchTermComplete);
+				Console.WriteLine(newPascalSearch.FinalWordCount);
+				Console.WriteLine(newPascalSearch.MethodClassName);
 				for (int i = 0; i < newPascalSearch.FinalWordCount; i++)
 				{
-					printl(newPascalSearch.MultiWordSearchTerms[i]);
-					printl(newPascalSearch.ImageResultsUrlOneD[i]);
-					printl(newPascalSearch.searchWordRefinedSearch[i]);
+					Console.WriteLine(newPascalSearch.MultiWordSearchTerms[i]);
+					Console.WriteLine(newPascalSearch.ImageResultsUrlOneD[i]);
+					Console.WriteLine(newPascalSearch.searchWordRefinedSearch[i]);
 				}
 				//await PascalImagesToScreen(newPascalSearch, newPascalSearch.FinalWordCount);
 			}
@@ -37,7 +35,7 @@ namespace DEBUGER_472
 			MainMethods.SubMethods.SaveAllVizfuncDataToFile(Mc);
 			
 			
-			printl("end");
+			Console.WriteLine("end");
 			return;;
 		}
 	}

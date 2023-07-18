@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BackendSharedLibrary</RootNamespace>
     <AssemblyName>BackendSharedLibrary</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion> 
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
@@ -67,23 +67,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainMethods.cs" />
-    <Compile Include="a01_VizFuncFileDataAndHelpers\VizFuncFileData.cs" />
-    <Compile Include="a01_VizFuncFileDataAndHelpers\a02_PascalSearch\PascalSearch.cs" />
-    <Compile Include="a01_VizFuncFileDataAndHelpers\HelperMethods\CodeDocumentContents.cs" />
-    <Compile Include="a01_VizFuncFileDataAndHelpers\HelperMethods\LoadUrlImageToStreamClass.cs" />
-    <Compile Include="a01_VizFuncFileDataAndHelpers\HelperMethods\RegexMethods.cs" />
-    <Compile Include="a01_VizFuncFileDataAndHelpers\HelperMethods\SearchStringHelpers.cs" />
-    <Compile Include="a01_VizFuncFileDataAndHelpers\HelperMethods\UnionOfLists.cs" />
-    <Compile Include="a99_LibrariesTypesMiscFunctions\BaseFuncs\PopulateArrays.cs" />
-    <Compile Include="a99_LibrariesTypesMiscFunctions\BaseFuncs\PrintClass.cs" />
-    <Compile Include="a99_LibrariesTypesMiscFunctions\BaseFuncs\ReturnFullPath.cs" />
-    <Compile Include="a99_LibrariesTypesMiscFunctions\BaseFuncs\FileReadWrite\DownloadFile.cs" />
-    <Compile Include="a99_LibrariesTypesMiscFunctions\BaseFuncs\FileReadWrite\ReadFileContents.cs" />
-    <Compile Include="a99_LibrariesTypesMiscFunctions\BaseFuncs\FileReadWrite\SerializeSaveFileClass.cs" />
-    <Compile Include="a99_LibrariesTypesMiscFunctions\Types\Enums\Enums.cs" />
-    <Compile Include="a99_LibrariesTypesMiscFunctions\Types\Interfaces\Interfaces.cs" />
-    <Compile Include="a99_LibrariesTypesMiscFunctions\Types\Structs\Structs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -91,14 +74,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="a99_LibrariesTypesMiscFunctions\DebugTools\" />
-  </ItemGroup>
-  <ItemGroup>
     <Analyzer Include="..\..\packages\AsyncFixer.1.6.0\analyzers\dotnet\cs\AsyncFixer.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="a99_LibrariesTypesMiscFunctions\dlls\FileUtilitiesXT.LibraryV1.0.0.1.dll" />
-    <Content Include="a99_LibrariesTypesMiscFunctions\dlls\GScraper.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

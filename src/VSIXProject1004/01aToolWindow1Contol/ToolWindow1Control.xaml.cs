@@ -5,10 +5,7 @@ using System.Windows.Controls;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
-using BackEndSharedLibrary;
-using BackEndSharedLibrary.VizFuncFileDataAndHelpers;
-using BackEndSharedLibrary.OtherMiscFuncs.BaseFuncs;
-using static BackEndSharedLibrary.VizFuncFileDataAndHelpers.VizFuncFileData;
+using VizFuncTypes;
 using FileUtilitiesXTUtil;
 
 namespace VSIXProject1004
@@ -52,12 +49,6 @@ namespace VSIXProject1004
 		
 		private async Task TestImageWindow()
 		{
-			string TestOnly  = VizFuncFileData.imageFileDirPath;
-			TestOnly  = VizFuncFileData.imageFileDirPath;
-			TestOnly = TestOnly;
-			string getAbsolute = Path.GetFullPath(TestOnly);
-			getAbsolute = Path.GetFullPath(TestOnly);
-			getAbsolute = getAbsolute;
 			string ActiveCodeFilePath = @"C:\Users\ARTURO 001\source\repos\001ScratchCode\001ReadCodeFile\TestCodeFile.cs";
 			FileUtilitiesXT fileUtilitiesXT = new FileUtilitiesXT();
 			//string ActiveCode = fileUtilitiesXT.ReadFromFile(ActiveCodeFilePath);
@@ -66,8 +57,7 @@ namespace VSIXProject1004
 			string ActiveCode = FileContentsClass.ReadFileContents(ActiveCodeFilePath);
 			
 			
-			
-			VizFuncFileData Mc = new VizFuncFileData(ActiveCode);
+			VizFuncDataSimple Mc = new VizFuncDataSimple(ActiveCode);
 			Mc.CodeFullFilePath = ActiveCodeFilePath;
 			PascalSearch.RefineResultOptions refineOpt = new PascalSearch.RefineResultOptions();
 			Mc._RefineResultForPascal = refineOpt;
