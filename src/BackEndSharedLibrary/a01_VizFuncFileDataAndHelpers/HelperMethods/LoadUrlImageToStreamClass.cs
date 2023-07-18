@@ -13,7 +13,7 @@ namespace BackEndSharedLibrary.VizFuncFileDataAndHelpers.HelperMethods
 	/*public class LoadUrlImageToStreamClass
 	{
 		//Proj Notes: This Method loads the image into ram into System.Drawing.Image object
-		public static async Task<MediaTypeNames.Image> LoadUrlImageToStream(string imageUrl)
+		public static MediaTypeNames.Image LoadUrlImageToStream(string imageUrl)
 		{
 			MediaTypeNames.Image image = null;
 			try

@@ -56,11 +56,9 @@ namespace UI_DEBUGER_net472
 			Mc.CodeFullFilePath = ActiveCodeFilePath;
 			PascalSearch.RefineResultOptions refineOpt = new PascalSearch.RefineResultOptions();
 			Mc._RefineResultForPascal = refineOpt;
-			await Mc.AllocatePascalSearchListAndGetUrls();
-			await MainMethods.SubMethods.DownloadAllImagesFourEach(Mc);
 			foreach (var newPascalSearch in Mc.PascalSearchList)
 			{
-				await PascalImagesToScreen(newPascalSearch, newPascalSearch.FinalWordCount);
+				PascalImagesToScreen(newPascalSearch, newPascalSearch.FinalWordCount);
 			}
 
 			MainMethods.SubMethods.SaveAllVizfuncDataToFile(Mc);
@@ -71,7 +69,7 @@ namespace UI_DEBUGER_net472
 			Mc.CodeFullFilePath = ActiveCodeFilePath;
 			PascalSearch.RefineResultOptions refineOpt = new PascalSearch.RefineResultOptions();
 			Mc._RefineResultForPascal = refineOpt;
-			await Mc.AllocatePascalSearchListAndGetUrls();
+			await Mc.AllocatePascalSearchList();
 			await MainMethods.SubMethods.DownloadAllImagesFourEach(Mc);
 			foreach ( var newPascalSearch in Mc.PascalSearchList)
 			{
@@ -96,7 +94,7 @@ namespace UI_DEBUGER_net472
 			MainMethods.SubMethods.SaveAllVizfuncDataToFile(Mc);*/
 		}
 
-		private async Task PascalImagesToScreen(PascalSearch pascalSearch, int cap)
+		private void PascalImagesToScreen(PascalSearch pascalSearch, int cap)
 		{
 			WideWindowUC01 UsiMy = new WideWindowUC01();
 			PrintOutputWindow("cap = " + cap);

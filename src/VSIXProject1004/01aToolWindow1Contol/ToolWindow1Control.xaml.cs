@@ -72,9 +72,8 @@ namespace VSIXProject1004
 			PascalSearch.RefineResultOptions refineOpt = new PascalSearch.RefineResultOptions();
 			Mc._RefineResultForPascal = refineOpt;
 			
-			await Mc.AllocatePascalSearchListAndGetUrls();
-			await MainMethods.SubMethods.DownloadAllImagesFourEach(Mc);
-			
+			Mc.AllocatePascalSearchList();
+
 			
 			
 			int DEbug02 = Mc.MethodsAndClassesList.Count;

@@ -19,8 +19,7 @@ namespace DEBUGER_472
 			Mc.CodeFullFilePath = ActiveCodeFilePath;
 			VizFuncFileData.PascalSearch.RefineResultOptions refineOpt = new VizFuncFileData.PascalSearch.RefineResultOptions();
 			Mc._RefineResultForPascal = refineOpt;
-			await Mc.AllocatePascalSearchListAndGetUrls();
-			await MainMethods.SubMethods.DownloadAllImagesFourEach(Mc);
+
 			foreach (var newPascalSearch in Mc.PascalSearchList)
 			{
 				printl(newPascalSearch.SearchTermComplete);
