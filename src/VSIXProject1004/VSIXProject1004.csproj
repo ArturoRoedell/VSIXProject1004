@@ -120,6 +120,10 @@
     </VSCTCompile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DEBUGER_472\DEBUGER_472.csproj">
+      <Project>{06e49637-6b23-4a3c-888e-fc1cdd6daffa}</Project>
+      <Name>DEBUGER_472</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VizFuncTypes\VizFuncTypes.csproj">
       <Project>{b8189276-63c3-4edf-9248-246cfa730f04}</Project>
       <Name>VizFuncTypes</Name>

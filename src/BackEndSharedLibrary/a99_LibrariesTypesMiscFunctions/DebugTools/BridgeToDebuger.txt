@@ -34,7 +34,7 @@ public static class BridgeToDebuger
 	public static async Task ChangeImageTypeThenDownload()
 	{
 		string ImageUrl =  @"https://upload.wikimedia.org/wikipedia/commons/1/18/Batman_logo.jpg";
-		string path01 = @"C:\Users\ARTURO 001\source\repos\VsixVisualizeMethodsAndClasses\Viz_func_Images";
+		string path01 = @"C:\Users\ARTURO 001\source\repos\VSIXProject1004\Viz_func_Images";
 		string fileName = Path.Combine(path01, "test.png");
 		//Proj Notes: Load Image into Ram
 		Image image = await LoadUrlImageToStreamClass.LoadUrlImageToStream(ImageUrl);

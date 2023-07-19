@@ -16,6 +16,6 @@ namespace VSIXProject1004
 			return fullPath;
 		}
 		
-		public static string imageFileDirPath { get; set; } = @"C:\Users\ARTURO 001\source\repos\VsixVisualizeMethodsAndClasses\Viz_func_Images\";
+		public static string imageFileDirPath { get; set; } = @"C:\Users\ARTURO 001\source\repos\VSIXProject1004\Viz_func_Images\";
 	}
 }

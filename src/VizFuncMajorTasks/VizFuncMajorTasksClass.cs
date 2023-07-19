@@ -15,7 +15,7 @@ public class VizFuncMajorTasksClass
 	{
 		string CopiedFileName = "CopyOfActiveCode.txt";
 		//string CopiedFilefullPath = @"..\..\..\..\..\Viz_func_Images\" + CopiedFileName;
-		string CopiedFilefullPath = @"C:\Users\ARTURO 001\source\repos\VsixVisualizeMethodsAndClasses\Viz_func_Images\CopyOfActiveCode.txt";
+		string CopiedFilefullPath = @"C:\Users\ARTURO 001\source\repos\VSIXProject1004\Viz_func_Images\CopyOfActiveCode.txt";
 		//string CopiedFilefullPath = @"..\..\..\..\Viz_func_Images\" + CopiedFileName;
 		//string CopiedFilefullPath = @"..\..\..\Viz_func_Images\" + CopiedFileName;
 		

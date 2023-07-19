@@ -8,13 +8,14 @@ using Newtonsoft.Json;
 
 namespace DEBUGER_472
 {
-	internal class DEBUGER_472
+	public class DEBUGER_472Class
 	{
 		
 		public static async Task Main(string[] args)
 		{
 			Console.WriteLine("START: DEBUGER472");
-			MatchSingleWordsToLinenumber();
+			Process.Start(@"C:\Users\ARTURO 001\source\repos\VSIXProject1004\src\VizFuncMajorTasks\bin\Debug\net6.0\VizFuncMajorTasks.exe");
+			//MatchSingleWordsToLinenumber();
 			//await TestMajorMethods();
 			//await TestOnlyLoadAndDeserialize();
 			Console.WriteLine("END: DEBUGER472");
@@ -47,7 +48,7 @@ namespace DEBUGER_472
 			#endregion
 			
 			string CopyFileName = "CopyOfActiveCode.txt";
-			string copyToFilePath = @"C:\Users\ARTURO 001\source\repos\VsixVisualizeMethodsAndClasses\Viz_func_Images\" + CopyFileName;
+			string copyToFilePath = @"C:\Users\ARTURO 001\source\repos\VSIXProject1004\Viz_func_Images\" + CopyFileName;
 			
 			#region CopyFileWrite
 			string dirpath = Path.GetDirectoryName(copyToFilePath);
@@ -74,7 +75,7 @@ namespace DEBUGER_472
 			Console.WriteLine(currentPath);
 			Console.WriteLine(fullFilePath);
 			System.Diagnostics.Process process = System.Diagnostics.Process.Start(fullFilePath);
-			string jsonVizDataSimpleJsonPath = @"C:\Users\ARTURO 001\source\repos\VsixVisualizeMethodsAndClasses\Viz_func_Images\Test01A.json";
+			string jsonVizDataSimpleJsonPath = @"C:\Users\ARTURO 001\source\repos\VSIXProject1004\Viz_func_Images\Test01A.json";
 			VizFuncDataSimple Load_VFDS = new VizFuncDataSimple();
 			List<VizFuncDataSimple> vizFuncFileDataList = new List<VizFuncDataSimple>();
 			
@@ -118,6 +119,8 @@ namespace DEBUGER_472
 			int countvf = vizFuncFileDataList.Count;
 			countvf = countvf;
 			Load_VFDS = vizFuncFileDataList[0];
+
+			Process.Start(@"C:\Users\ARTURO 001\source\repos\VSIXProject1004\src\VizFuncMajorTasks\bin\Debug\net6.0\VizFuncMajorTasks.exe");
 			
 			#region Debug_Loaded_File_deserialized data_Debug_only
 			Console.WriteLine("##############################");
@@ -172,7 +175,7 @@ namespace DEBUGER_472
 
 		public static async Task TestOnlyLoadAndDeserialize()
 		{
-			string jsonVizDataSimpleJsonPath = @"C:\Users\ARTURO 001\source\repos\VsixVisualizeMethodsAndClasses\Viz_func_Images\Test01A.json";
+			string jsonVizDataSimpleJsonPath = @"C:\Users\ARTURO 001\source\repos\VSIXProject1004\Viz_func_Images\Test01A.json";
 			VizFuncDataSimple Load_VFDS = new VizFuncDataSimple();
 			#region readfile
 			string jsonFileVisFuncData;
@@ -269,7 +272,7 @@ namespace DEBUGER_472
 		public static void MatchSingleWordsToLinenumber()
 		{
 			
-			string jsonVizDataSimpleJsonPath = @"C:\Users\ARTURO 001\source\repos\VsixVisualizeMethodsAndClasses\Viz_func_Images\Test01A.json";
+			string jsonVizDataSimpleJsonPath = @"C:\Users\ARTURO 001\source\repos\VSIXProject1004\Viz_func_Images\Test01A.json";
 			VizFuncDataSimple savedVizFunc = new VizFuncDataSimple();
 			
 			#region readfile

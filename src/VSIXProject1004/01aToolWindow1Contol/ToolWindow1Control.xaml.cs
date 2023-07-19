@@ -9,6 +9,8 @@ using System.Windows.Media.Imaging;
 using VizFuncTypes;
 using FileUtilitiesXTUtil;
 using Newtonsoft.Json;
+using DEBUGER_472;
+using EnvDTE;
 
 namespace VSIXProject1004
 {
@@ -51,7 +53,7 @@ namespace VSIXProject1004
 		
 		private async Task TestImageWindow()
 		{
-			string jsonVizDataSimpleJsonPath = @"C:\Users\ARTURO 001\source\repos\VsixVisualizeMethodsAndClasses\Viz_func_Images\Test01A.json";
+			string jsonVizDataSimpleJsonPath = @"C:\Users\ARTURO 001\source\repos\VSIXProject1004\Viz_func_Images\Test01A.json";
 			VizFuncDataSimple savedVizFunc = new VizFuncDataSimple();
 			#region readfile
 			string jsonFileVisFuncData;
@@ -311,5 +313,14 @@ namespace VSIXProject1004
 			}
 		}*/
 		#endregion
+
+		private void InitButton_Click(object sender, RoutedEventArgs e)
+		{
+
+
+			DEBUGER_472.DEBUGER_472Class.TestMajorMethods();
+
+			//throw new NotImplementedException();
+		}
 	}
 }
