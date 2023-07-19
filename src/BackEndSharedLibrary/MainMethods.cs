@@ -86,8 +86,8 @@ public class MainMethods
 			{
 				for (int i = 0; i < newPascalSearch.FinalWordCount; i++)
 				{
-					await VizFuncFileData.DownloadSingleImage(newPascalSearch.ImageResultsUrlOneD[i]
-						, newPascalSearch.MultiWordSearchTerms[i]);
+					/*await VizFuncFileData.DownloadSingleImage(newPascalSearch.ImageResultsUrlOneD[i]
+						, newPascalSearch.MultiWordSearchTerms[i]);*/
 					for (int j = 0; j < 4; j++)
 					{
 						string name = newPascalSearch.MultiWordSearchTerms[i];

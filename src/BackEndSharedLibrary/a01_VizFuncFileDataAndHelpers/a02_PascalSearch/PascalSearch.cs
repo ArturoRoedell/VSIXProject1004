@@ -159,6 +159,7 @@ public partial class VizFuncFileData
 				string fullFilepath = ImageFileFullPath(piSearch.MultiWordSearchTerms[wordIndex], imageIndexForPath);
 				printl(fullFilepath);
 				bool DoesImageFileExist = File.Exists(fullFilepath);
+				DoesImageFileExist = false;//DEBUG ONLY: ReLookup images anyways
 				if (DoesImageFileExist)
 				{
 					//Do nothing
@@ -180,8 +181,8 @@ public partial class VizFuncFileData
 					
 					IEnumerable<IImageResult> enumImageResult;
 					IEnumerable<IImageResult> enumImageResultCartoon;//Proj Notes: will also search with cartoon term and mix in results
-					enumImageResult        = await ImageScrapers.GetImagesAsyncBridge(piSearch.searchWordRefinedSearch[wordIndex]);
-					enumImageResultCartoon = await ImageScrapers.GetImagesAsyncBridge( cartoonSearchOffOn +  piSearch.searchWordRefinedSearch[wordIndex] );
+					enumImageResult = await ImageScrapers.GetImagesAsyncBridge(piSearch.searchWordRefinedSearch[wordIndex]);
+					enumImageResultCartoon = await ImageScrapers.GetImagesAsyncBridge(cartoonSearchOffOn +  piSearch.searchWordRefinedSearch[wordIndex] );
 
 					int resulUrls01 = enumImageResult.Count();
 					int resulUrls02 = enumImageResultCartoon.Count();
@@ -211,19 +212,23 @@ public partial class VizFuncFileData
 							imagIndex++;
 						}
 					}
-					//-------------Finally----------------------------------------
 
-					
 					for (int i = 0, k = 0; i < urlTransferArray.Length; i++)
 					{
-						urlTransferArray[i++] = normalUrlTransferArray[k];
-						urlTransferArray[i  ] = cartoonUrlTransferArray [k];
+						urlTransferArray[i] = normalUrlTransferArray[k];
+						i++;
+						k++;
+						urlTransferArray[i] = cartoonUrlTransferArray [k];
 						k++;
 					}
+
+
+					if (cartoonSwitch)
+					{
+						
+					}
 					
-					
-					//----------------work above---------------------------------
-					
+
 					//Todo Maybe Later: PipeDream Extract Method
 					#region SaveUrlFiles
 					int debugThis = Array.FindIndex(urlTransferArray, i => i == null);

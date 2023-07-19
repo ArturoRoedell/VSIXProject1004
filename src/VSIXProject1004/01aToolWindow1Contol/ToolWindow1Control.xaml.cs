@@ -11,6 +11,8 @@ using FileUtilitiesXTUtil;
 using Newtonsoft.Json;
 using DEBUGER_472;
 using EnvDTE;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 
 namespace VSIXProject1004
 {
@@ -189,6 +191,8 @@ namespace VSIXProject1004
 					break;
 				}
 				i++;
+				
+				
 				try
 				{
 					ImageWindowUC01 What = new ImageWindowUC01();
@@ -316,11 +320,29 @@ namespace VSIXProject1004
 
 		private void InitButton_Click(object sender, RoutedEventArgs e)
 		{
+			//DEBUGER_472.DEBUGER_472Class.TestMajorMethods();
+			System.Diagnostics.Process.Start(@"C:\Users\ARTURO 001\source\repos\VSIXProject1004\src\VizFuncMajorTasks\bin\Debug\net6.0\VizFuncMajorTasks.exe");
 
-
-			DEBUGER_472.DEBUGER_472Class.TestMajorMethods();
 
 			//throw new NotImplementedException();
 		}
 	}
+	
+	class EditorVizFunc
+	{
+		/*private void Execute(object sender, EventArgs e)
+		{
+			/// Get Open Documents
+			string docName = GetActiveTextEditor();
+			if (docName == null) return;
+		}*/
+
+		internal static string GetActiveTextEditor()
+		{
+			DTE dte = Package.GetGlobalService(typeof(SDTE)) as DTE;
+			string docName = dte.ActiveDocument.Name;
+			return docName;
+		}
+	}
+	
 }
