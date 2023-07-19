@@ -175,7 +175,7 @@ public partial class VizFuncFileData
 		imageIndex++;//Default is one
 		string fullFilepath = ImageFileFullPath(fileName, imageIndex);
 		printl(fullFilepath);
-		if (!File.Exists(fullFilepath))// (!File.Exists(fullFilepath)) // Default
+		if (true)// (!File.Exists(fullFilepath)) // Default // DEBUG ONLY Remove when done; set to default
 		{
 			Image image;
 			printl(imageUrl);

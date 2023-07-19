@@ -11,8 +11,13 @@
              Name="MyToolWindow">
     <Grid>
 		<StackPanel Orientation="Vertical">
-			<Button Content="Start" Click="button1_Click"  Height="20" Name="button1" Background="LightBlue"/>
-
+			<Grid>
+				<StackPanel Orientation="Horizontal">
+					<Button Content="Init" Click="InitButton_Click"  Height="20" Name="InitButton" Background="LightPink" Width="50" />
+					<Button Content="Start" Click="button1_Click"  Height="20" Name="button1" Background="LightBlue" Width="300" />
+				</StackPanel>
+			</Grid>
+			
 			<ScrollViewer x:Name="ScrollingViewer02" Background="#FF6594D6" Height="635">
 				<StackPanel x:Name="ScrollingViewer01" Orientation="VerTical" HorizontalAlignment="Left" />
 			</ScrollViewer>

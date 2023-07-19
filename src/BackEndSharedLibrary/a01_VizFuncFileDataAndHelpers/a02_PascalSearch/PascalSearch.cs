@@ -148,7 +148,7 @@ public partial class VizFuncFileData
 			return OneOfManyList;
 		}
 		
-		public static async Task<PascalSearch> LoopThorughWordsGetImages(PascalSearch piSearch)
+		public static async Task<PascalSearch> LoopThorughWordsGetImages(PascalSearch piSearch, bool cartoonSwitch = true)
 		{
 			//Proj Notes: Remember Image cap is set to 5 urls per term search set in attributes
 			string[,] ImageResultsUrlTransfer = new string[piSearch.FinalWordCount, imageCap];// 5
@@ -167,10 +167,21 @@ public partial class VizFuncFileData
 				else
 				{
 					//Add Url to array
+					cartoonSwitch = false;//DEBUG ONLY REMOVE
+					string cartoonSearchOffOn;
+					if (cartoonSwitch)
+					{ 
+						cartoonSearchOffOn = "cartoon";
+					}
+					else
+					{
+						cartoonSearchOffOn = " ";
+					}
+					
 					IEnumerable<IImageResult> enumImageResult;
 					IEnumerable<IImageResult> enumImageResultCartoon;//Proj Notes: will also search with cartoon term and mix in results
 					enumImageResult        = await ImageScrapers.GetImagesAsyncBridge(piSearch.searchWordRefinedSearch[wordIndex]);
-					enumImageResultCartoon = await ImageScrapers.GetImagesAsyncBridge( "cartoon " +  piSearch.searchWordRefinedSearch[wordIndex] );
+					enumImageResultCartoon = await ImageScrapers.GetImagesAsyncBridge( cartoonSearchOffOn +  piSearch.searchWordRefinedSearch[wordIndex] );
 
 					int resulUrls01 = enumImageResult.Count();
 					int resulUrls02 = enumImageResultCartoon.Count();
